@@ -8,8 +8,8 @@ const config = {
     backgroundColor: '#93cbee',
     // zoom: 2,                 // 타일 배율 설정
     scale: {
-        mode: Phaser.Scale.FIT,
-        // mode: Phaser.Scale.ScaleModes.RESIZE,
+        // mode: Phaser.Scale.FIT,             // FIT은 브라우저 크기가 변해도 사이즈 비율 유지
+        mode: Phaser.Scale.ScaleModes.RESIZE,  // ScaleModes.RESIZE은 사이즈 크기에 따라 유동적으로 변화
         width: window.innerWidth,
         height: window.innerHeight,
       },

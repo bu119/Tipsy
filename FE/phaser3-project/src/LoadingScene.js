@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+
 // import Chair from './items/Chair'
 // import logoImg from './assets/logo.png';
 
@@ -8,12 +9,11 @@ import bar_wine from './assets/map/bar_wineInterior.png';
 import bar_furniture from './assets/map/bar_furniture.png';
 import bar_furniture_deco from './assets/map/bar_furniture_deco.png';
 import bar_deco from './assets/map/bar_floor_wall_deco.png';
+import bar_food from './assets/map/bar_food.png';
 
 // import face from './assets/map/face.png'
 import jsonash from './assets/character/ash.json'
 import imageash from './assets/character/ash.png'
-import bar_food from './assets/map/bar_food.png';
-
 
 import map1 from './assets/map/map1.json';
 
@@ -26,9 +26,9 @@ class LoadingScene extends Phaser.Scene {
 
     preload ()
     {
-        // 캐릭터
+        // 캐릭터 (이름: ash)
         // this.load.image('character', face);
-        this.load.atlas('characterash', imageash, jsonash)
+        this.load.atlas('ash', imageash, jsonash)
 
         this.load.image('tilesFloor', bar_floor);
         this.load.image('tilesWall', bar_wall);
@@ -40,7 +40,6 @@ class LoadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', map1)
         // this.load.tilemapTiledJSON('map', map2)
         // this.load.image('logo', logoImg);
-
     }
 
     // 생성하기
@@ -68,26 +67,25 @@ class LoadingScene extends Phaser.Scene {
         
         //// 플레이어
         // this.player = this.physics.add.sprite(100, 150, 'character')
-        this.player = this.physics.add.sprite(100, 150, 'characterash')
+        // JSON 적용
+        this.player = this.physics.add.sprite(100, 150, 'ash')
         
-        // 안돼!!!!!!
-        // 플레이어 월드 바깥 이동제한
-        // this.player.setCollideWorldBounds(true);
-        this.player.setCollideWorldBounds(true);
         
         // 순서 중요!!!!!!!!
         // 경계 밖으로 카메라가 나가지 않도록 설정
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         // 플레이어를 중앙으로 카메라 이동
         this.cameras.main.startFollow(this.player);
-
+        // 안돼!!!!!!
+        // 플레이어 월드 바깥 이동제한
+        // this.player.setCollideWorldBounds(true);
+        this.player.setCollideWorldBounds(true);
+        
         
         // 카메라 설정
         // 2배 확대 (setScale(2) 대신 가능)
         this.cameras.main.setZoom(2);
         
-        // 키보드 입력기
-        this.cursors = this.input.keyboard.createCursorKeys();
         
         //// 타일에 충돌(Collision) 적용 (collides 적용)
         layer2.setCollisionByProperty({ collides: true });
@@ -105,31 +103,167 @@ class LoadingScene extends Phaser.Scene {
         this.physics.add.collider(this.player, layer3);
         this.physics.add.collider(this.player, layer4);
         
+        // 애니메이션
+        // 사용할수있는 모든 프레임 이름 추출
+        // const frameNames= this.textures.get('ash').getFrameNames();
+        // console.log(frameNames)
+        // createCharacterAnims()
+        const animsFrameRate = 15
+        
+        this.anims.create({
+            key: 'ash_idle_right',
+            frames: this.anims.generateFrameNames('ash', {
+                prefix: 'Ash_idle_anim_',
+                start: 0,
+                end: 5,
+            }),
+            // 반복
+            repeat: -1,
+            // 프레임 속도
+            frameRate: this.animsFrameRate * 0.6,
+        })
+        
+        this.anims.create({
+            key: 'ash_idle_up',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 6,
+                end: 11,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate * 0.6,
+        })
+        
+        this.anims.create({
+            key: 'ash_idle_left',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 12,
+                end: 17,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate * 0.6,
+        })
+        
+        this.anims.create({
+            key: 'ash_idle_down',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 18,
+                end: 23,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate * 0.6,
+        })
+        
+        this.anims.create({
+            key: 'ash_run_right',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 24,
+                end: 29,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_run_up',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 30,
+                end: 35,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_run_left',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 36,
+                end: 41,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_run_down',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 42,
+                end: 47,
+            }),
+            repeat: -1,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_sit_down',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 48,
+                end: 48,
+            }),
+            repeat: 0,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_sit_left',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 49,
+                end: 49,
+            }),
+            repeat: 0,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_sit_right',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 50,
+                end: 50,
+            }),
+            repeat: 0,
+            frameRate: this.animsFrameRate,
+        })
+        
+        this.anims.create({
+            key: 'ash_sit_up',
+            frames: this.anims.generateFrameNames('ash', {
+                start: 51,
+                end: 51,
+            }),
+            repeat: 0,
+            frameRate: this.animsFrameRate,
+        })
+        
+        // 키보드 입력기
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
-
+    
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
         // console.log(this.player.body.x, this.player.body.y);   
-
+        
         this.player.setVelocityY(0);
         this.player.setVelocityX(0);
 
-       if (this.cursors.up.isDown==true) 
+        if (this.cursors.up.isDown==true) 
        {
-        this.player.setVelocityY(-160);
+           this.player.setVelocityY(-160);
+           this.player.anims.play('ash_idle_up', true);
        }
        if (this.cursors.down.isDown==true) 
        {
-        this.player.setVelocityY(160);
+           this.player.setVelocityY(160);
+           this.player.anims.play('ash_idle_down', true);
        }
        if (this.cursors.right.isDown==true) 
        {
-        this.player.setVelocityX(160);
+           this.player.setVelocityX(160);
+           this.player.anims.play('ash_idle_right', true);
        }
        if (this.cursors.left.isDown==true) 
        {
-        this.player.setVelocityX(-160);
+           this.player.setVelocityX(-160);
+           this.player.anims.play('ash_idle_left', true);
        }
 
     }

@@ -42,6 +42,7 @@ class LoadingScene extends Phaser.Scene {
         // this.load.image('logo', logoImg);
     }
 
+    
     // 생성하기
     create ()
     {
@@ -70,6 +71,10 @@ class LoadingScene extends Phaser.Scene {
         // JSON 적용
         this.player = this.physics.add.sprite(100, 150, 'ash')
         
+        // 키보드 입력기
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.keyE = this.input.keyboard.addKey('E')
+        this.keyR = this.input.keyboard.addKey('R')
         
         // 순서 중요!!!!!!!!
         // 경계 밖으로 카메라가 나가지 않도록 설정
@@ -81,11 +86,9 @@ class LoadingScene extends Phaser.Scene {
         // this.player.setCollideWorldBounds(true);
         this.player.setCollideWorldBounds(true);
         
-        
         // 카메라 설정
         // 2배 확대 (setScale(2) 대신 가능)
         this.cameras.main.setZoom(2);
-        
         
         //// 타일에 충돌(Collision) 적용 (collides 적용)
         layer2.setCollisionByProperty({ collides: true });
@@ -103,169 +106,207 @@ class LoadingScene extends Phaser.Scene {
         this.physics.add.collider(this.player, layer3);
         this.physics.add.collider(this.player, layer4);
         
+        
         // 애니메이션
         // 사용할수있는 모든 프레임 이름 추출
-        // const frameNames= this.textures.get('ash').getFrameNames();
-        // console.log(frameNames)
-        // createCharacterAnims()
-        const animsFrameRate = 15
-        
+        const frameNames= this.textures.get('ash').getFrameNames();
+        console.log(frameNames)
+
         this.anims.create({
             key: 'ash_idle_right',
             frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_idle_anim_',
-                start: 0,
-                end: 5,
+            prefix: 'Ash_idle_anim_',
+            suffix: '.png',
+              start: 1,
+              end: 6,
             }),
             // 반복
             repeat: -1,
             // 프레임 속도
-            frameRate: this.animsFrameRate * 0.6,
-        })
-        
-        this.anims.create({
+            frameRate: 6.5,
+            })
+          
+          this.anims.create({
             key: 'ash_idle_up',
             frames: this.anims.generateFrameNames('ash', {
-                start: 6,
-                end: 11,
+                prefix: 'Ash_idle_anim_',
+                suffix: '.png',
+                start: 7,
+                end: 12,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate * 0.6,
-        })
-        
-        this.anims.create({
+            frameRate: 6.5,
+          })
+          
+          this.anims.create({
             key: 'ash_idle_left',
             frames: this.anims.generateFrameNames('ash', {
-                start: 12,
-                end: 17,
+                prefix: 'Ash_idle_anim_',
+                suffix: '.png',
+                start: 13,
+                end: 18,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate * 0.6,
-        })
+            frameRate: 6.5,
+          })
         
-        this.anims.create({
+          this.anims.create({
             key: 'ash_idle_down',
             frames: this.anims.generateFrameNames('ash', {
-                start: 18,
-                end: 23,
+
+                prefix: 'Ash_idle_anim_',
+                suffix: '.png',
+                start: 19,
+                end: 24,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate * 0.6,
-        })
-        
+            frameRate: 6.5,
+          })
+   
         this.anims.create({
             key: 'ash_run_right',
             frames: this.anims.generateFrameNames('ash', {
-                start: 24,
-                end: 29,
+                prefix: 'Ash_run_',
+                suffix: '.png',
+                start: 1,
+                end: 6,
             }),
+            // 반복
             repeat: -1,
-            frameRate: this.animsFrameRate,
+            // 프레임 속도
+            frameRate: 10,
         })
         
         this.anims.create({
             key: 'ash_run_up',
             frames: this.anims.generateFrameNames('ash', {
-                start: 30,
-                end: 35,
+                prefix: 'Ash_run_',
+                suffix: '.png',
+                start: 7,
+                end: 12,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
         
         this.anims.create({
             key: 'ash_run_left',
             frames: this.anims.generateFrameNames('ash', {
-                start: 36,
-                end: 41,
+                prefix: 'Ash_run_',
+                suffix: '.png',
+                start: 13,
+                end: 18,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
         
         this.anims.create({
             key: 'ash_run_down',
             frames: this.anims.generateFrameNames('ash', {
-                start: 42,
-                end: 47,
+                prefix: 'Ash_run_',
+                suffix: '.png',
+                start: 19,
+                end: 24,
             }),
             repeat: -1,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
-        
+
+        this.anims.create({
+            key: 'walk',
+            frames: [
+                { key: 'char',frame:1 },
+                { key: 'char',frame:2 },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
         this.anims.create({
             key: 'ash_sit_down',
-            frames: this.anims.generateFrameNames('ash', {
-                start: 48,
-                end: 48,
-            }),
+            frames: { key: 'ash',frame:'Ash_sit_down.png'},
             repeat: 0,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
         
         this.anims.create({
             key: 'ash_sit_left',
-            frames: this.anims.generateFrameNames('ash', {
-                start: 49,
-                end: 49,
-            }),
+            frames: { key: 'ash',frame:'Ash_sit_left.png'},
             repeat: 0,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
-        
+    
         this.anims.create({
             key: 'ash_sit_right',
-            frames: this.anims.generateFrameNames('ash', {
-                start: 50,
-                end: 50,
-            }),
+            frames: { key: 'ash',frame:'Ash_sit_right.png'},
             repeat: 0,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
-        
+    
         this.anims.create({
             key: 'ash_sit_up',
-            frames: this.anims.generateFrameNames('ash', {
-                start: 51,
-                end: 51,
-            }),
+            frames: { key: 'ash',frame:'Ash_sit_up.png'},
             repeat: 0,
-            frameRate: this.animsFrameRate,
+            frameRate: 10,
         })
-        
-        // 키보드 입력기
-        this.cursors = this.input.keyboard.createCursorKeys();
+       
     }
     
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        // console.log(this.player.body.x, this.player.body.y);   
+        // console.log(this.player.body.x, this.player.body.y); 
         
-        this.player.setVelocityY(0);
-        this.player.setVelocityX(0);
+        const prevVelocity = this.player.body.velocity.clone();
+        // 이전 프레임의 속도를 0으로 설정
+        this.player.setVelocity(0);
+        // this.player.setVelocityY(0);
+        // this.player.setVelocityX(0);
+        
+        // 이동
+        if (this.cursors.up.isDown==true) {
+            this.player.setVelocityY(-160);
+            // this.player.anims.play('ash_run_up', true);
+        }
+        if (this.cursors.down.isDown==true) {
+            this.player.setVelocityY(160);
+            // this.player.anims.play('ash_run_down', true);
+        }
+        if (this.cursors.right.isDown==true) {
+            this.player.setVelocityX(160);
+            // this.player.anims.play('ash_run_right', true);
+        }
+        if (this.cursors.left.isDown==true) {
+            this.player.setVelocityX(-160);
+            // this.player.anims.play('ash_run_left', true);
+        }
 
-        if (this.cursors.up.isDown==true) 
-       {
-           this.player.setVelocityY(-160);
-           this.player.anims.play('ash_idle_up', true);
-       }
-       if (this.cursors.down.isDown==true) 
-       {
-           this.player.setVelocityY(160);
-           this.player.anims.play('ash_idle_down', true);
-       }
-       if (this.cursors.right.isDown==true) 
-       {
-           this.player.setVelocityX(160);
-           this.player.anims.play('ash_idle_right', true);
-       }
-       if (this.cursors.left.isDown==true) 
-       {
-           this.player.setVelocityX(-160);
-           this.player.anims.play('ash_idle_left', true);
-       }
+        // 애니메이션 적용 (좌우 이동 우선시)
+        if (this.cursors.left.isDown) {
+            this.player.anims.play('ash_run_left', true);
+        } else if (this.cursors.right.isDown) {
+            this.player.anims.play('ash_run_right', true);
+        } else if (this.cursors.up.isDown) {
+            this.player.anims.play('ash_run_up', true);
+        } else if (this.cursors.down.isDown) {
+            this.player.anims.play('ash_run_down', true);
+        } else {
+            // this.player.anims.stop();
+            // console.log(prevVelocity)
 
+            // 이동하다 멈추면, 사용할 프레임 선택 & idle상태로 전환
+            if (prevVelocity.x < 0) {
+                this.player.anims.play('ash_idle_left', true)
+                // if (this.this.keyE) {
+                //     this.player.anims.play('ash_sit_left', true)
+                // }
+            }
+            else if (prevVelocity.x > 0) {this.player.anims.play('ash_idle_right', true)}
+            else if (prevVelocity.y < 0) {this.player.anims.play('ash_idle_up', true)}
+            else if (prevVelocity.y > 0) {this.player.anims.play('ash_idle_down', true)}
+        }
+        
     }
 }
 

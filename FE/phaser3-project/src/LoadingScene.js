@@ -1,8 +1,5 @@
 import Phaser from 'phaser';
 
-// import Chair from './items/Chair'
-// import logoImg from './assets/logo.png';
-
 import bar_wall from './assets/map/bar_walls.png';
 import bar_floor from './assets/map/bar_floors.png';
 import bar_wine from './assets/map/bar_wineInterior.png';
@@ -14,6 +11,8 @@ import bar_food from './assets/map/bar_food.png';
 // import face from './assets/map/face.png'
 import jsonash from './assets/character/ash.json'
 import imageash from './assets/character/ash.png'
+import jsonlucy from './assets/character/lucy.json'
+import imagelucy from './assets/character/lucy.png'
 
 import map1 from './assets/map/map1.json';
 
@@ -29,6 +28,7 @@ class LoadingScene extends Phaser.Scene {
         // 캐릭터 (이름: ash)
         // this.load.image('character', face);
         this.load.atlas('ash', imageash, jsonash)
+        this.load.atlas('lucy', imagelucy, jsonlucy)
 
         this.load.image('tilesFloor', bar_floor);
         this.load.image('tilesWall', bar_wall);
@@ -41,7 +41,6 @@ class LoadingScene extends Phaser.Scene {
         // this.load.tilemapTiledJSON('map', map2)
         // this.load.image('logo', logoImg);
     }
-
     
     // 생성하기
     create ()
@@ -69,12 +68,22 @@ class LoadingScene extends Phaser.Scene {
         //// 플레이어
         // this.player = this.physics.add.sprite(100, 150, 'character')
         // JSON 적용
-        this.player = this.physics.add.sprite(100, 150, 'ash')
+        const characterKey = 'lucy'
+        const imageName = 'Lucy'
+        // const characterKey = 'ash'
+        // const imageName = 'Ash'
+        this.player = this.physics.add.sprite(100, 150, characterKey).setScale(0.8)
         
         // 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.keyE = this.input.keyboard.addKey('E')
-        this.keyR = this.input.keyboard.addKey('R')
+        this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
+        // this.wasdKeys = this.input.keyboard.addKeys({
+        //     up: Phaser.Input.Keyboard.KeyCodes.W,
+        //     down: Phaser.Input.Keyboard.KeyCodes.S,
+        //     left: Phaser.Input.Keyboard.KeyCodes.A,
+        //     right: Phaser.Input.Keyboard.KeyCodes.D,
+        //   });
         
         // 순서 중요!!!!!!!!
         // 경계 밖으로 카메라가 나가지 않도록 설정
@@ -106,165 +115,161 @@ class LoadingScene extends Phaser.Scene {
         this.physics.add.collider(this.player, layer3);
         this.physics.add.collider(this.player, layer4);
         
-        
-        // 애니메이션
+        // 애니메이션 적용
         // 사용할수있는 모든 프레임 이름 추출
-        const frameNames= this.textures.get('ash').getFrameNames();
+        const frameNames= this.textures.get(`${characterKey}`).getFrameNames();
         console.log(frameNames)
-
-        this.anims.create({
-            key: 'ash_idle_right',
-            frames: this.anims.generateFrameNames('ash', {
-            prefix: 'Ash_idle_anim_',
-            suffix: '.png',
-              start: 1,
-              end: 6,
-            }),
-            // 반복
-            repeat: -1,
-            // 프레임 속도
-            frameRate: 6.5,
-            })
-          
-          this.anims.create({
-            key: 'ash_idle_up',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_idle_anim_',
-                suffix: '.png',
-                start: 7,
-                end: 12,
-            }),
-            repeat: -1,
-            frameRate: 6.5,
-          })
-          
-          this.anims.create({
-            key: 'ash_idle_left',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_idle_anim_',
-                suffix: '.png',
-                start: 13,
-                end: 18,
-            }),
-            repeat: -1,
-            frameRate: 6.5,
-          })
+        // 애니메이션 함수 적용
+        this.createAnims(characterKey,imageName)
         
-          this.anims.create({
-            key: 'ash_idle_down',
-            frames: this.anims.generateFrameNames('ash', {
+        // 애니메이션 움직임 함수로 만듬
+        // this.anims.create({
+        //     // key: 'ash_idle_right',
+        //     key: `${characterKey}_idle_right`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //     prefix: `${imageName}_idle_anim_`,
+        //     suffix: '.png',
+        //       start: 1,
+        //       end: 6,
+        //     }),
+        //     // 반복
+        //     repeat: -1,
+        //     // 프레임 속도
+        //     frameRate: 6
+        //     })
+          
+        //   this.anims.create({
+        //     key: `${characterKey}_idle_up`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_idle_anim_`,
+        //         suffix: '.png',
+        //         start: 7,
+        //         end: 12,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 6
+        //   })
+          
+        //   this.anims.create({
+        //     key: `${characterKey}_idle_left`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_idle_anim_`,
+        //         suffix: '.png',
+        //         start: 13,
+        //         end: 18,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 6
+        //   })
+        
+        //   this.anims.create({
+        //     key: `${characterKey}_idle_down`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
 
-                prefix: 'Ash_idle_anim_',
-                suffix: '.png',
-                start: 19,
-                end: 24,
-            }),
-            repeat: -1,
-            frameRate: 6.5,
-          })
+        //         prefix: `${imageName}_idle_anim_`,
+        //         suffix: '.png',
+        //         start: 19,
+        //         end: 24,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 6
+        //   })
    
-        this.anims.create({
-            key: 'ash_run_right',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_run_',
-                suffix: '.png',
-                start: 1,
-                end: 6,
-            }),
-            // 반복
-            repeat: -1,
-            // 프레임 속도
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_run_right`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_run_`,
+        //         suffix: '.png',
+        //         start: 1,
+        //         end: 6,
+        //     }),
+        //     // 반복
+        //     repeat: -1,
+        //     // 프레임 속도
+        //     frameRate: 10,
+        // })
         
-        this.anims.create({
-            key: 'ash_run_up',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_run_',
-                suffix: '.png',
-                start: 7,
-                end: 12,
-            }),
-            repeat: -1,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_run_up`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_run_`,
+        //         suffix: '.png',
+        //         start: 7,
+        //         end: 12,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 10,
+        // })
         
-        this.anims.create({
-            key: 'ash_run_left',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_run_',
-                suffix: '.png',
-                start: 13,
-                end: 18,
-            }),
-            repeat: -1,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_run_left`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_run_`,
+        //         suffix: '.png',
+        //         start: 13,
+        //         end: 18,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 10,
+        // })
         
-        this.anims.create({
-            key: 'ash_run_down',
-            frames: this.anims.generateFrameNames('ash', {
-                prefix: 'Ash_run_',
-                suffix: '.png',
-                start: 19,
-                end: 24,
-            }),
-            repeat: -1,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_run_down`,
+        //     frames: this.anims.generateFrameNames(characterKey, {
+        //         prefix: `${imageName}_run_`,
+        //         suffix: '.png',
+        //         start: 19,
+        //         end: 24,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 10,
+        // })
 
-        this.anims.create({
-            key: 'walk',
-            frames: [
-                { key: 'char',frame:1 },
-                { key: 'char',frame:2 },
-            ],
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'ash_sit_down',
-            frames: { key: 'ash',frame:'Ash_sit_down.png'},
-            repeat: 0,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_sit_down`,
+        //     frames: { key: characterKey, frame:`${imageName}_sit_down.png`},
+        //     repeat: 0,
+        //     frameRate: 10,
+        // })
         
-        this.anims.create({
-            key: 'ash_sit_left',
-            frames: { key: 'ash',frame:'Ash_sit_left.png'},
-            repeat: 0,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_sit_left`,
+        //     frames: { key: characterKey, frame:`${imageName}_sit_left.png`},
+        //     repeat: 0,
+        //     frameRate: 10,
+        // })
     
-        this.anims.create({
-            key: 'ash_sit_right',
-            frames: { key: 'ash',frame:'Ash_sit_right.png'},
-            repeat: 0,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_sit_right`,
+        //     frames: { key: characterKey, frame:`${imageName}_sit_right.png`},
+        //     repeat: 0,
+        //     frameRate: 10,
+        // })
     
-        this.anims.create({
-            key: 'ash_sit_up',
-            frames: { key: 'ash',frame:'Ash_sit_up.png'},
-            repeat: 0,
-            frameRate: 10,
-        })
+        // this.anims.create({
+        //     key: `${characterKey}_sit_up`,
+        //     frames: { key: characterKey, frame:`${imageName}_sit_up.png`},
+        //     repeat: 0,
+        //     frameRate: 10,
+        // })
        
     }
     
     // 실시간 반영
     update() {
+        const characterKey = 'lucy'
+        const imageName = 'Lucy'
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
         // console.log(this.player.body.x, this.player.body.y); 
         
+        // 이전 속도(x,y) 저장
         const prevVelocity = this.player.body.velocity.clone();
         // 이전 프레임의 속도를 0으로 설정
         this.player.setVelocity(0);
         // this.player.setVelocityY(0);
         // this.player.setVelocityX(0);
         
-        // 이동
+        // 플레이어 이동
         if (this.cursors.up.isDown==true) {
             this.player.setVelocityY(-160);
             // this.player.anims.play('ash_run_up', true);
@@ -284,30 +289,173 @@ class LoadingScene extends Phaser.Scene {
 
         // 애니메이션 적용 (좌우 이동 우선시)
         if (this.cursors.left.isDown) {
-            this.player.anims.play('ash_run_left', true);
+            this.player.anims.play(`${characterKey}_run_left`, true);
         } else if (this.cursors.right.isDown) {
-            this.player.anims.play('ash_run_right', true);
+            this.player.anims.play(`${characterKey}_run_right`, true);
         } else if (this.cursors.up.isDown) {
-            this.player.anims.play('ash_run_up', true);
+            this.player.anims.play(`${characterKey}_run_up`, true);
         } else if (this.cursors.down.isDown) {
-            this.player.anims.play('ash_run_down', true);
+            this.player.anims.play(`${characterKey}_run_down`, true);
         } else {
             // this.player.anims.stop();
             // console.log(prevVelocity)
 
             // 이동하다 멈추면, 사용할 프레임 선택 & idle상태로 전환
-            if (prevVelocity.x < 0) {
-                this.player.anims.play('ash_idle_left', true)
-                // if (this.this.keyE) {
-                //     this.player.anims.play('ash_sit_left', true)
-                // }
-            }
-            else if (prevVelocity.x > 0) {this.player.anims.play('ash_idle_right', true)}
-            else if (prevVelocity.y < 0) {this.player.anims.play('ash_idle_up', true)}
-            else if (prevVelocity.y > 0) {this.player.anims.play('ash_idle_down', true)}
+            if (prevVelocity.x < 0) {this.player.anims.play(`${characterKey}_idle_left`, true)}
+            else if (prevVelocity.x > 0) {this.player.anims.play(`${characterKey}_idle_right`, true)}
+            else if (prevVelocity.y < 0) {this.player.anims.play(`${characterKey}_idle_up`, true)}
+            else if (prevVelocity.y > 0) {this.player.anims.play(`${characterKey}_idle_down`, true)}
         }
-        
+
+        if (this.keyE.isDown) {
+            console.log(prevVelocity)
+            console.log('E')
+            if (this.player.anims.play(`${characterKey}_idle_left`)) {
+                console.log('왼')
+                this.player.anims.play(`${characterKey}_sit_left`, true)
+                // this.player.setTexture(characterKey, `${imageName}_sit_left.png`)
+            // }
+            // if (this.player.anims.play(`${characterKey}_idle_right`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_right.png`)}
+            // if (this.player.anims.play(`${characterKey}_idle_up`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_up.png`)}
+            // if (this.player.anims.play(`${characterKey}_idle_down`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_down.png`)}
+            }
+        }
     }
+
+    //////////////////////// FUNCTIONS ////////////////////////
+
+    // 애니메이션 움직임 함수 생성
+    createAnims(characterKey,imageName) {
+        this.anims.create({
+            // key: 'ash_idle_right',
+            key: `${characterKey}_idle_right`,
+            frames: this.anims.generateFrameNames(characterKey, {
+            prefix: `${imageName}_idle_anim_`,
+            suffix: '.png',
+              start: 1,
+              end: 6,
+            }),
+            // 반복
+            repeat: -1,
+            // 프레임 속도
+            frameRate: 6
+            })
+          
+          this.anims.create({
+            key: `${characterKey}_idle_up`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_idle_anim_`,
+                suffix: '.png',
+                start: 7,
+                end: 12,
+            }),
+            repeat: -1,
+            frameRate: 6
+          })
+          
+          this.anims.create({
+            key: `${characterKey}_idle_left`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_idle_anim_`,
+                suffix: '.png',
+                start: 13,
+                end: 18,
+            }),
+            repeat: -1,
+            frameRate: 6
+          })
+        
+          this.anims.create({
+            key: `${characterKey}_idle_down`,
+            frames: this.anims.generateFrameNames(characterKey, {
+
+                prefix: `${imageName}_idle_anim_`,
+                suffix: '.png',
+                start: 19,
+                end: 24,
+            }),
+            repeat: -1,
+            frameRate: 6
+          })
+   
+        this.anims.create({
+            key: `${characterKey}_run_right`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_run_`,
+                suffix: '.png',
+                start: 1,
+                end: 6,
+            }),
+            // 반복
+            repeat: -1,
+            // 프레임 속도
+            frameRate: 10,
+        })
+        
+        this.anims.create({
+            key: `${characterKey}_run_up`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_run_`,
+                suffix: '.png',
+                start: 7,
+                end: 12,
+            }),
+            repeat: -1,
+            frameRate: 10,
+        })
+        
+        this.anims.create({
+            key: `${characterKey}_run_left`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_run_`,
+                suffix: '.png',
+                start: 13,
+                end: 18,
+            }),
+            repeat: -1,
+            frameRate: 10,
+        })
+        
+        this.anims.create({
+            key: `${characterKey}_run_down`,
+            frames: this.anims.generateFrameNames(characterKey, {
+                prefix: `${imageName}_run_`,
+                suffix: '.png',
+                start: 19,
+                end: 24,
+            }),
+            repeat: -1,
+            frameRate: 10,
+        })
+
+        this.anims.create({
+            key: `${characterKey}_sit_down`,
+            frames: { key: characterKey, frame:`${imageName}_sit_down.png`},
+            repeat: -1,
+            frameRate: 10,
+        })
+        
+        this.anims.create({
+            key: `${characterKey}_sit_left`,
+            frames: { key: characterKey, frame:`${imageName}_sit_left.png`},
+            repeat: 0,
+            frameRate: 10,
+        })
+    
+        this.anims.create({
+            key: `${characterKey}_sit_right`,
+            frames: { key: characterKey, frame:`${imageName}_sit_right.png`},
+            repeat: 0,
+            frameRate: 10,
+        })
+    
+        this.anims.create({
+            key: `${characterKey}_sit_up`,
+            frames: { key: characterKey, frame:`${imageName}_sit_up.png`},
+            repeat: 0,
+            frameRate: 10,
+        })
+    }   
 }
 
 export default LoadingScene;

@@ -287,15 +287,21 @@ class LoadingScene extends Phaser.Scene {
             // this.player.anims.play('ash_run_left', true);
         }
 
+        let sit = 0
+
         // 애니메이션 적용 (좌우 이동 우선시)
         if (this.cursors.left.isDown) {
             this.player.anims.play(`${characterKey}_run_left`, true);
+            this.sit = 1
         } else if (this.cursors.right.isDown) {
             this.player.anims.play(`${characterKey}_run_right`, true);
+            this.sit = 2
         } else if (this.cursors.up.isDown) {
             this.player.anims.play(`${characterKey}_run_up`, true);
+            this.sit = 3
         } else if (this.cursors.down.isDown) {
             this.player.anims.play(`${characterKey}_run_down`, true);
+            this.sit = 4
         } else {
             // this.player.anims.stop();
             // console.log(prevVelocity)
@@ -307,18 +313,18 @@ class LoadingScene extends Phaser.Scene {
             else if (prevVelocity.y > 0) {this.player.anims.play(`${characterKey}_idle_down`, true)}
         }
 
+        // 'E' 키 눌렀을 때 앉는 모션 추가
         if (this.keyE.isDown) {
-            console.log(prevVelocity)
-            console.log('E')
-            if (this.player.anims.play(`${characterKey}_idle_left`)) {
-                console.log('왼')
-                this.player.anims.play(`${characterKey}_sit_left`, true)
-                // this.player.setTexture(characterKey, `${imageName}_sit_left.png`)
-            // }
-            // if (this.player.anims.play(`${characterKey}_idle_right`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_right.png`)}
-            // if (this.player.anims.play(`${characterKey}_idle_up`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_up.png`)}
-            // if (this.player.anims.play(`${characterKey}_idle_down`, true)) {this.player.setTexture(characterKey, `${imageName}_sit_down.png`)}
-            }
+            // console.log(prevVelocity)
+            // console.log('E')
+            // console.log(this.sit)
+            // this.player.anims.play(`${characterKey}_sit_left`, true);
+
+            // 나중에 의자 모양에 따라 모션이 바뀌는 걸로 조정
+            if (this.sit === 1) {this.player.anims.play(`${characterKey}_sit_left`, true)}
+            else if (this.sit === 2) {this.player.anims.play(`${characterKey}_sit_right`, true)}
+            else if (this.sit === 3) {this.player.anims.play(`${characterKey}_sit_up`, true)}
+            else if (this.sit === 4) {this.player.anims.play(`${characterKey}_sit_down`, true)}
         }
     }
 
@@ -430,30 +436,30 @@ class LoadingScene extends Phaser.Scene {
 
         this.anims.create({
             key: `${characterKey}_sit_down`,
-            frames: { key: characterKey, frame:`${imageName}_sit_down.png`},
-            repeat: -1,
-            frameRate: 10,
+            frames: [{ key: characterKey, frame:`${imageName}_sit_down.png`}],
+            // repeat: 0,
+            frameRate: 20,
         })
         
         this.anims.create({
             key: `${characterKey}_sit_left`,
-            frames: { key: characterKey, frame:`${imageName}_sit_left.png`},
-            repeat: 0,
-            frameRate: 10,
+            frames: [{ key: characterKey, frame:`${imageName}_sit_left.png`}],
+            // repeat: 0,
+            frameRate: 20,
         })
     
         this.anims.create({
             key: `${characterKey}_sit_right`,
-            frames: { key: characterKey, frame:`${imageName}_sit_right.png`},
-            repeat: 0,
-            frameRate: 10,
+            frames: [{ key: characterKey, frame:`${imageName}_sit_right.png`}],
+            // repeat: 0,
+            frameRate: 20,
         })
     
         this.anims.create({
             key: `${characterKey}_sit_up`,
-            frames: { key: characterKey, frame:`${imageName}_sit_up.png`},
-            repeat: 0,
-            frameRate: 10,
+            frames: [{ key: characterKey, frame:`${imageName}_sit_up.png`}],
+            // repeat: 0,
+            frameRate: 20,
         })
     }   
 }

@@ -65,6 +65,7 @@ class LoadingScene extends Phaser.Scene {
         
         
         const chairTileset = map.addTilesetImage("tilechair", 'tilesChair');
+        // console.log(chairTileset.firstgid)
         // const decoTileset = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
         // console.log(chairTileset)
 
@@ -80,26 +81,59 @@ class LoadingScene extends Phaser.Scene {
         
         // console.log(Phaser.Tilemaps.Tilemap.getTileset());
 
-        // ChairObject 가지고 오기
-        // const chairLayer = map.getObjectLayer('chairObject', chairTileset);
-        const chairLayer = map.getObjectLayer('chairObject');
-        const chairs = this.physics.add.staticGroup()
-        chairLayer.objects.forEach((chairObj) => {
-            // const obj = chairs.create(object.x, object.y, )
-            chairs.get(chairObj.x, chairObj.y, 'chairs', chairObj.gid)
-        })
-        console.log(chairs)
-        // console.log(chairLayer.objects)
-
-        // function addObjectFromTiled(group, object, key){
-        //     const actualX = object.x + object.width * 0.5
-        //     const actualY = object.y - object.height * 0.5
-        //     const obj = group.get(actualX, actualY, key, object.gid)
-        // }
 
         //// 플레이어
         // this.player = this.physics.add.sprite(100, 150, 'character')
         this.player = this.physics.add.sprite(100, 150, 'characterash')
+        
+
+        // 윤경
+        // ChairObject 가지고 오기
+        // const chairLayer = map.getObjectLayer('chairObject', chairTileset);
+        const chairLayer = map.getObjectLayer('chairObject');
+        const chairs = this.physics.add.staticGroup()
+        chairLayer.objects.forEach((chairObj, i) => {
+            // const obj = chairs.create(object.x, object.y, )
+            // console.log(chairObj.properties)
+            const item = chairs.get(chairObj.x + 28 * 0.5, chairObj.y - 32 * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid)
+            const id = `${i}`
+            item.id = id
+            this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
+            // this.physics.add.overlap(this.player, item, seat(item.id), null, this);
+        })
+
+        // let selected = 1000
+        // function seat(currentItem){
+        //     if(currentItem === selected){
+        //         return
+        //     }
+        //     else{
+        //         selected = currentItem
+        //         console.log(selected)
+        //     }
+        // }
+
+        // this.physics.add.overlap(this.player, chairs, ()=> console.log('overlap'), undefined, this);
+        // console.log(chairs)
+        // function addObjectFromTiled(group, object, key, tileset){
+        //     const actualX = object.x + object.width * 0.5;
+        //     const actualY = object.y - object.height * 0.5;
+        //     const obj = group.get(actualX, actualY, key, object.gid - tileset.firstgid)
+        //     // return obj
+        // }
+
+        // chairLayer.objects.forEach((chairObj) => {
+        //     const item = this.addObjectFromTiled(chairs, chairObj, 'chairs', chairTileset)
+        //     console.log(item)
+        // })
+
+        // console.log(chairs)
+
+        // console.log(chairLayer.objects)
+
+
+        //윤경
+        // this.physics.add.overlap(this.player, chairs, ()=>console.log('hit'), null, this);
         
         // 안돼!!!!!!
         // 플레이어 월드 바깥 이동제한

@@ -94,8 +94,8 @@ class PlayingScene extends Phaser.Scene {
         // 캐릭터 선택
         this.characterKey = 'lucy'
         this.imageName = 'Lucy'
-        // const characterKey = 'ash'
-        // const imageName = 'Ash'
+        // this.characterKey = 'ash'
+        // this.imageName = 'Ash'
 
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(100, 150, this.characterKey).setScale(0.8)

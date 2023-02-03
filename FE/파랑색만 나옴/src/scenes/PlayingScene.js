@@ -20,31 +20,9 @@ export default class HelloWorldScene extends Phaser.Scene {
   constructor() {
     super('helloworld')
   }
-  // preload() {
-  //   this.load.setBaseURL('https://labs.phaser.io')
-
-  //   this.load.image('logo', 'assets/sprites/phaser3-logo.png')
-  //   this.load.image('red', 'assets/particles/red.png')
-  // }
-
-  // create() {
-  //   this.createEmitter()
-  // }
-
-  // createEmitter() {
-    
-  //   const logo = this.physics.add.image(400, 100, 'logo')
-
-  //   logo.setVelocity(100, 200)
-  //   logo.setBounce(1, 1)
-  //   logo.setCollideWorldBounds(true)
-
-  // }
 
   preload ()
   {
-      this.cache.json.add('ash', jsonash);
-      this.cache.json.add('lucy', jsonlucy);
       // 플레이어 캐릭터 불러오기
       // image
       // this.load.image('character', face);

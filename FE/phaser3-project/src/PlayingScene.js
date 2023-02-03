@@ -7,6 +7,7 @@ import bar_furniture from './assets/map/bar_furniture.png';
 import bar_furniture_deco from './assets/map/bar_furniture_deco.png';
 import bar_deco from './assets/map/bar_floor_wall_deco.png';
 import bar_food from './assets/map/bar_food.png';
+import bar_chair from './assets/map/bar_chairs.png';
 
 // import face from './assets/map/face.png'
 import jsonash from './assets/character/ash.json'
@@ -45,6 +46,13 @@ class PlayingScene extends Phaser.Scene {
         // 타일맵 Json 불러오기
         this.load.tilemapTiledJSON('map', map1)
         // this.load.tilemapTiledJSON('map', map2)
+
+        // chairObject의 의자 이미지 불러오기
+        this.load.image('tilesChair', bar_chair);
+        this.load.spritesheet('chairs', bar_chair, {
+            frameWidth: 32,
+            frameHeight: 32,
+        })
     }
     
     // 생성하기
@@ -60,6 +68,7 @@ class PlayingScene extends Phaser.Scene {
         const furnitureTileset2 = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
         const decoTileset = map.addTilesetImage("tiledeco",'tilesDeco');
         const foodTileset = map.addTilesetImage("tilefood",'tilesFood');
+        const chairTileset = map.addTilesetImage("tilechair", 'tilesChair');
         // const decoTileset = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
         
         // 레이어 생성
@@ -69,10 +78,11 @@ class PlayingScene extends Phaser.Scene {
         const layer2 = map.createLayer('wallLayer', [wallTileset1, wallTileset2], 0, 0)
         const layer3 = map.createLayer('decoLayer', [furnitureTileset1,furnitureTileset2,decoTileset], 0, 0)
         const layer4 = map.createLayer('tableLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
-        const layer5 = map.createLayer('chairLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
+        // const layer5 = map.createLayer('chairLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
         const layer6 = map.createLayer('foodLayer', [furnitureTileset1, foodTileset], 0, 0)
         // const layer3 = map.createLayer('Tile Layer 3', tileset3, 0, 0);
-        
+
+
         //// 타일에 충돌(Collision) 적용
         // Tiled에서 생성한 collides 적용
         layer2.setCollisionByProperty({ collides: true });
@@ -98,8 +108,27 @@ class PlayingScene extends Phaser.Scene {
         // const imageName = 'Ash'
 
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(100, 150, this.characterKey).setScale(0.8)
+        this.player = this.physics.add.sprite(100, 150, this.characterKey).setScale(0.8).setDepth(32)
         
+        //chairObject 레이어 생성
+        const chairLayer = map.getObjectLayer('chairObject');
+        const chairs = this.physics.add.staticGroup()
+        let overlapChair = -1
+        let seat = function(id){
+            overlapChair = id
+            console.log(overlapChair)
+            // return overlapChair;
+        } 
+        chairLayer.objects.forEach((chairObj, i) => {
+            // const obj = chairs.create(object.x, object.y, )
+            // console.log(chairObj.properties)
+            const item = chairs.get(chairObj.x + 28 * 0.5, chairObj.y - 32 * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid)
+            const id = `${i}`
+            item.id = id
+            this.physics.add.overlap(this.player, item, seat(item.id), null, this);
+            // this.physics.add.overlap(this.player, item, seat(item.id), null, this);
+        })
+        console.log(overlapChair)
 
         //// 플레이어에 충돌 적용
         // 왜 안돼!!!!!!
@@ -110,7 +139,6 @@ class PlayingScene extends Phaser.Scene {
         this.physics.add.collider(this.player, [layer2, layer3, layer4]);
         // this.physics.add.collider(this.player, layer3);
         // this.physics.add.collider(this.player, layer4);
-
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -199,6 +227,7 @@ class PlayingScene extends Phaser.Scene {
             // console.log('E')
             // console.log(this.sit)
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
+            console.log(this.overlapChair)
 
             // 나중에 의자 모양에 따라 모션이 바뀌는 걸로 조정 !!!!!!!!!!!!!!!!!!!!!!
             if (this.sit === 1) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}

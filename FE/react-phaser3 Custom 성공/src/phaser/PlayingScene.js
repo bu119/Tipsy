@@ -109,13 +109,14 @@ class PlayingScene extends Phaser.Scene {
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(100, 150, this.characterKey).setScale(0.8).setDepth(32)
         
-        //chairObject 레이어 생성
+
+        //// chairObject 레이어 생성
         const chairLayer = map.getObjectLayer('chairObject');
         const chairs = this.physics.add.staticGroup()
         let overlapChair = -1
         let seat = function(id){
             overlapChair = id
-            console.log(overlapChair)
+            // console.log(overlapChair)
             // return overlapChair;
         } 
         chairLayer.objects.forEach((chairObj, i) => {
@@ -127,7 +128,8 @@ class PlayingScene extends Phaser.Scene {
             this.physics.add.overlap(this.player, item, seat(item.id), null, this);
             // this.physics.add.overlap(this.player, item, seat(item.id), null, this);
         })
-        console.log(overlapChair)
+        // console.log(overlapChair)
+
 
         //// 플레이어에 충돌 적용
         // 왜 안돼!!!!!!

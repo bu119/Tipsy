@@ -17,6 +17,13 @@ import imagelucy from '../assets/character/lucy.png'
 
 import map1 from '../assets/map/map1.json';
 
+import profile from '../assets/map/profile.png'
+
+let sit = -1; // 전역변수 : 선택한 의자의 방향
+let current_chair = -1
+let current_table = -1
+let chair_x = -1
+let chair_y = -1
 
 class PlayingScene extends Phaser.Scene {
     constructor () {
@@ -52,6 +59,7 @@ class PlayingScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32,
         })
+        this.load.image('profile', profile);
     }
     
     // 생성하기
@@ -111,23 +119,59 @@ class PlayingScene extends Phaser.Scene {
         
         //chairObject 레이어 생성
         const chairLayer = map.getObjectLayer('chairObject');
-        const chairs = this.physics.add.staticGroup()
-        let overlapChair = -1
-        let seat = function(id){
-            overlapChair = id
-            console.log(overlapChair)
-            // return overlapChair;
-        } 
+        const chairs = this.physics.add.staticGroup({
+            key: 'chair'
+        });
+
+        const people = [0, 11, 13, 21, 32];
         chairLayer.objects.forEach((chairObj, i) => {
-            // const obj = chairs.create(object.x, object.y, )
-            // console.log(chairObj.properties)
-            const item = chairs.get(chairObj.x + 28 * 0.5, chairObj.y - 32 * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid)
-            const id = `${i}`
+            const item = chairs.get(chairObj.x + chairObj.width * 0.5, chairObj.y - chairObj.height * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid)
+            const id = Number(`${i}`)            
             item.id = id
-            this.physics.add.overlap(this.player, item, seat(item.id), null, this);
-            // this.physics.add.overlap(this.player, item, seat(item.id), null, this);
+            item.sit = chairObj.gid- chairTileset.firstgid
+            console.log(people.includes(id))
+            if (people.indexOf(id) >= 0){
+                this.add.image(item.x, item.y, 'profile').setDepth(10);
+            }
+            else{
+                this.physics.add.overlap(this.player, item, ()=>seat(item), null, this);
+            }
         })
-        console.log(overlapChair)
+
+        // const connectLayer = map.getObjectLayer('connectObject');
+        // const connects = this.physics.add.staticGroup()
+
+        // connectLayer.objects.forEach((connectObj, i) => {
+        //     const area = connects.get(connectObj)
+        // })
+        // this.physics.add.overlap(this.player, connectLayer, ()=>console.log('connect'), null, this);
+
+        
+        // 현재 접근한 의자
+        function seat(item){
+            if(current_table === -1){
+                current_chair = item.id % 4
+                current_table = parseInt(item.id / 4)
+                sit = item.sit
+                chair_x = item.x
+                chair_y = item.y
+                // console.log(parseInt(current_chair / 4), current_chair % 4)
+            }
+            // // 한자리에 계속 머무를 때
+            // if(current_chair === item.id){
+            //     return
+            // }
+            // // 다른 자리로 바꿨을 때
+            // else{
+            //     current_chair = item.id
+            //     current_table = parseInt(current_chair / 4)
+            //     sit = item.sit
+            //     // console.log(this.sit)
+            //     console.log(parseInt(current_chair / 4), current_chair % 4)
+            // }
+        }
+        
+
 
         //// 플레이어에 충돌 적용
         // 왜 안돼!!!!!!
@@ -187,7 +231,7 @@ class PlayingScene extends Phaser.Scene {
 
         //// 플레이어 이동 & 애니메이션
         // 앉는 애니메이션 적용 방향
-        let sit = 0
+
         
         // 이동 & 애니메이션 적용 (좌우 이동 우선시)
         if (this.cursors.left.isDown) {
@@ -195,23 +239,28 @@ class PlayingScene extends Phaser.Scene {
             this.player.setVelocityX(-160);
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
-            this.sit = 1
+            current_table = -1
+
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
             this.player.anims.play(`${this.characterKey}_run_right`, true);
-            this.sit = 2
+            current_table = -1
+
         } else if (this.cursors.up.isDown) {
             this.player.setVelocityY(-160);
             this.player.anims.play(`${this.characterKey}_run_up`, true);
-            this.sit = 3
+            current_table = -1
+
         } else if (this.cursors.down.isDown) {
             this.player.setVelocityY(160);
             this.player.anims.play(`${this.characterKey}_run_down`, true);
-            this.sit = 4
+            current_table = -1
+ 
         } else {
+            // if (current_table > -1) {console.log(current_table)}
+
             // this.player.anims.stop();
             // console.log(prevVelocity)
-
             // 이동하다 멈추면, 사용할 프레임 선택 & idle상태로 전환
             if (prevVelocity.x < 0) {this.player.anims.play(`${this.characterKey}_idle_left`, true)}
             else if (prevVelocity.x > 0) {this.player.anims.play(`${this.characterKey}_idle_right`, true)}
@@ -221,18 +270,19 @@ class PlayingScene extends Phaser.Scene {
 
         // 앉는 애니메이션 적용
         // 'E' 키 눌렀을 때 앉는 모션 추가
-        if (this.keyE.isDown) {
+        if (this.keyE.isDown && current_table >= 0) {
             // console.log(prevVelocity)
             // console.log('E')
-            // console.log(this.sit)
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
-            console.log(this.overlapChair)
 
-            // 나중에 의자 모양에 따라 모션이 바뀌는 걸로 조정 !!!!!!!!!!!!!!!!!!!!!!
-            if (this.sit === 1) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}
-            else if (this.sit === 2) {this.player.anims.play(`${this.characterKey}_sit_right`, true)}
-            else if (this.sit === 3) {this.player.anims.play(`${this.characterKey}_sit_up`, true)}
-            else if (this.sit === 4) {this.player.anims.play(`${this.characterKey}_sit_down`, true)}
+            // 의자 모양에 따라 모션이 다르게
+            if (sit === 3) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}
+            else if (sit === 1) {this.player.anims.play(`${this.characterKey}_sit_right`, true)}
+            else if (sit === 2) {this.player.anims.play(`${this.characterKey}_sit_up`, true)}
+            else if (sit === 0) {this.player.anims.play(`${this.characterKey}_sit_down`, true)}
+            // 의자에 위치에 맞게 아바타 앉히기
+            this.player.setPosition(chair_x, chair_y - 12)
+            console.log(current_chair, current_table) 
         }
 
     }

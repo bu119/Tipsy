@@ -22,8 +22,8 @@ export const config = {
     },
   // width: 800,
   // height: 600,
-  // scene: [PlayingScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
-  scene: [MainstreetScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
+  scene: [PlayingScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
+  // scene: [MainstreetScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
   // pixelArt: true,                          // 타일 선명하게
   physics:{
       default:"arcade",                       // arcade라는 물리 엔진을 사용

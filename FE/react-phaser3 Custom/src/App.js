@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from "./pages/Home";
 import GameView from "./pages/GameView";
 import About from "./pages/About";
+import QRcode from "./components/QRcode";
+
 
 // export default class App extends React.Component {
 // 	render() {
@@ -22,6 +24,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='/phaser' element={<GameView/>}/>
+          <Route path='/QR' element={<QRcode/>}/>
         </Routes>
       </div>
     </BrowserRouter>

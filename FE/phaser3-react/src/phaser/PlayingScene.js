@@ -129,8 +129,8 @@ class PlayingScene extends Phaser.Scene {
             const id = Number(`${i}`)            
             item.id = id
             item.sit = chairObj.gid- chairTileset.firstgid
-            console.log(people.includes(id))
-            if (people.indexOf(id) >= 0){
+
+            if (people.includes(id)){
                 this.add.image(item.x, item.y, 'profile').setDepth(10);
             }
             else{
@@ -270,19 +270,38 @@ class PlayingScene extends Phaser.Scene {
 
         // 앉는 애니메이션 적용
         // 'E' 키 눌렀을 때 앉는 모션 추가
-        if (this.keyE.isDown && current_table >= 0) {
+        if (this.keyE.isDown && current_table >= 0 ) {
+            
             // console.log(prevVelocity)
             // console.log('E')
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
 
             // 의자 모양에 따라 모션이 다르게
-            if (sit === 3) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}
-            else if (sit === 1) {this.player.anims.play(`${this.characterKey}_sit_right`, true)}
-            else if (sit === 2) {this.player.anims.play(`${this.characterKey}_sit_up`, true)}
-            else if (sit === 0) {this.player.anims.play(`${this.characterKey}_sit_down`, true)}
+            switch (sit) {
+                case 0:
+                    this.player.anims.play(`${this.characterKey}_sit_down`, true)
+                    break
+                case 1:
+                    this.player.anims.play(`${this.characterKey}_sit_right`, true)
+                    break
+                case 2:
+                    this.player.anims.play(`${this.characterKey}_sit_up`, true)
+                    break
+                case 3:
+                    this.player.anims.play(`${this.characterKey}_sit_left`, true)
+                    break
+            }
+            // if (sit === 3) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}
+            // else if (sit === 1) {this.player.anims.play(`${this.characterKey}_sit_right`, true)}
+            // else if (sit === 2) {this.player.anims.play(`${this.characterKey}_sit_up`, true)}
+            // else if (sit === 0) {this.player.anims.play(`${this.characterKey}_sit_down`, true)}
+
             // 의자에 위치에 맞게 아바타 앉히기
             this.player.setPosition(chair_x, chair_y - 12)
-            console.log(current_chair, current_table) 
+
+            setTimeout(() => {
+                console.log(current_table, current_chair) 
+            }, 1000);
         }
 
     }

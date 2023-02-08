@@ -19,6 +19,17 @@ import bar_map from '../assets/barMap/bar_map.json';
 
 import profile from '../assets/barMap/profile.png'
 
+//redux
+import store from '../redux/store';
+import { addTodo } from '../redux/actions';
+
+store.subscribe(() => {
+    console.log(store.getState());
+})
+
+// store.dispatch(addTodo('coding'));
+// console.log(store.getState());
+
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -240,7 +251,8 @@ class PlayingScene extends Phaser.Scene {
 
         // 앉는 애니메이션 적용
         // 'E' 키 눌렀을 때 앉는 모션 추가
-        if (this.keyX.isDown && current_table >= 0) {
+        // if (this.keyX.isDown && current_table >= 0) {
+        if (Phaser.Input.Keyboard.JustDown(this.keyX) && current_table >= 0) {
             // console.log(prevVelocity)
             // console.log(this.sit)
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
@@ -268,7 +280,8 @@ class PlayingScene extends Phaser.Scene {
             
             // 의자에 위치에 맞게 아바타 앉히기
             this.player.setPosition(chair_x, chair_y - 12)
-            console.log(current_chair, current_table) 
+            store.dispatch(addTodo(current_chair));
+            // console.log(current_chair, current_table) 
         }
 
     }

@@ -15,6 +15,7 @@ import imagelucy from '../assets/character/lucy.png'
 
 import mainstreet from '../assets/mainstreet/mainstreet.json';
 
+let current_store = -1
 
 
 class MainstreetScene extends Phaser.Scene {
@@ -86,7 +87,7 @@ class MainstreetScene extends Phaser.Scene {
             const item = stores.get(storeObj.x + 160 * 0.5, storeObj.y - 160 * 0.5, 'stores', storeObj.gid - storesTileset.firstgid)
             const id = `${i}`
             item.id = id
-            this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
+            this.physics.add.overlap(this.player, item, ()=>{current_store = item.id}, null, this);
         })
 
         //// 플레이어에 충돌 적용
@@ -97,7 +98,7 @@ class MainstreetScene extends Phaser.Scene {
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
-        
+        this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )
         // 1. 경계 밖으로 카메라가 나가지 않도록 설정
@@ -136,11 +137,11 @@ class MainstreetScene extends Phaser.Scene {
             this.player.setVelocityX(-160);
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
-            this.sit = 1
+            current_store = -1
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
             this.player.anims.play(`${this.characterKey}_run_right`, true);
-            this.sit = 2
+            current_store = -1
         } else {
             // this.player.anims.stop();
             // console.log(prevVelocity)
@@ -152,10 +153,13 @@ class MainstreetScene extends Phaser.Scene {
             else if (prevVelocity.y > 0) {this.player.anims.play(`${this.characterKey}_idle_down`, true)}
         }
 
+        if  (Phaser.Input.Keyboard.JustDown(this.keySpace) && current_store >= 0){
+            console.log(current_store)
+        }
+
     }
 
     //////////////////////// FUNCTIONS ////////////////////////
-
 
     // 애니메이션 움직임 함수 생성
     createAnims(characterKey,imageName) {

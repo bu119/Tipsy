@@ -18,7 +18,8 @@ import imagelucy from '../assets/character/lucy.png'
 import bar_map from '../assets/barMap/bar_map.json';
 
 import profile from '../assets/barMap/profile.png'
-
+import store from '../redux/store';
+import { changeShop } from '../redux/actions';
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -28,7 +29,7 @@ let chair_y = -1
 
 class PlayingScene extends Phaser.Scene {
     constructor () {
-        super();
+        super('barmap');
     }
 
     preload ()
@@ -117,8 +118,8 @@ class PlayingScene extends Phaser.Scene {
         // this.imageName = 'Ash'
 
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(100, 150, this.characterKey).setScale(0.7).setDepth(32)
-        
+        this.player = this.physics.add.sprite(495, 423, this.characterKey).setScale(0.7).setDepth(32)
+
         
         //// chairObject 레이어 생성
         const chairLayer = map.getObjectLayer('chairObject');
@@ -163,6 +164,7 @@ class PlayingScene extends Phaser.Scene {
         // 키보드 입력키 추가
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         // this.wasdKeys = this.input.keyboard.addKeys({
         //     up: Phaser.Input.Keyboard.KeyCodes.W,
         //     down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -193,11 +195,14 @@ class PlayingScene extends Phaser.Scene {
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        // console.log(this.player.body.x, this.player.body.y); 
-
-        let speed = 160;
+        // console.log(this.player.body.x, this.player.body.y);         
+        if (this.player.body.y > 440) {
+            store.dispatch(changeShop("street"));
+            // 리덕스로 'street' 보냄
+        }
+        let speed = 200;
         // Shift 키를 누르면서 이동하면 빠르게 이동
-        if (this.keyZ.isDown) {speed = 220;}
+        if (this.keyZ.isDown) {speed = 300;}
     
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)

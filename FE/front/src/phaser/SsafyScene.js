@@ -11,6 +11,7 @@ import ssafy_chair from '../assets/ssafyMap/chair.png';
 import ssafy_generic from '../assets/ssafyMap/Generic.png';
 import ssafy_logo1 from '../assets/ssafyMap/ssafy_logo1.png';
 import ssafy_logo2 from '../assets/ssafyMap/ssafy_logo2.png';
+import ssafy_name from '../assets/ssafyMap/name.png';
 
 import jsonash from '../assets/character/ash.json'
 import imageash from '../assets/character/ash.png'
@@ -18,6 +19,9 @@ import jsonlucy from '../assets/character/lucy.json'
 import imagelucy from '../assets/character/lucy.png'
 
 import ssafy_map from '../assets/ssafyMap/ssafy_map.json';
+
+import store from '../redux/store';
+import { changeShop } from '../redux/actions';
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -27,7 +31,7 @@ let chair_y = -1
 
 class SsafyScene extends Phaser.Scene {
     constructor () {
-        super();
+        super('ssafymap');
     }
 
     preload ()
@@ -46,6 +50,7 @@ class SsafyScene extends Phaser.Scene {
         this.load.image('tilesGene', ssafy_generic);
         this.load.image('tileslogo1', ssafy_logo1);
         this.load.image('tileslogo2', ssafy_logo2);
+        this.load.image('tilesname', ssafy_name);
 
         // tableObject의 책상 이미지 불러오기
         this.load.image('tilesTable1', ssafy_table1);
@@ -89,12 +94,13 @@ class SsafyScene extends Phaser.Scene {
         const floorWallTileset = map.addTilesetImage("FloorAndGround",'tilesFloorWall');
         const officeTileset = map.addTilesetImage("Modern_Office",'tilesOffice');
         const decoTileset = map.addTilesetImage("library",'tilesDeco');
-
+        const nameTileset = map.addTilesetImage("name",'tilesname');
+        // console.log(nameTileset)
         const tableTileset1 = map.addTilesetImage("table1",'tilesTable1');
         const tableTileset2 = map.addTilesetImage("table2",'tilesTable2');
         const tableTileset3 = map.addTilesetImage("table3",'tilesTable3');
         const tableTileset4 = map.addTilesetImage("table4",'tilesTable4');
-
+        
         const chairTileset = map.addTilesetImage("chair",'tilesChair');
         const GenericTileset = map.addTilesetImage("Generic",'tilesGene');
         const logoTileset1 = map.addTilesetImage("ssafylogo1",'tileslogo1');
@@ -108,8 +114,8 @@ class SsafyScene extends Phaser.Scene {
         const layer3 = map.createLayer('shadowLayer', floorWallTileset, 0, 0)
         const layer2 = map.createLayer('wallLayer', floorWallTileset, 0, 0)
         const layer6 = map.createLayer('tableLayer', officeTileset, 0, 0)
-        const layer4 = map.createLayer('decoLayer1', [officeTileset, decoTileset, GenericTileset, logoTileset1, logoTileset2], 0, 0)
-        const layer5 = map.createLayer('decoLayer2', officeTileset, 0, 0)
+        const layer4 = map.createLayer('decoLayer1', [officeTileset, decoTileset, GenericTileset, logoTileset1, logoTileset2,], 0, 0)
+        // const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
 
         //// 타일에 충돌(Collision) 적용
         // Tiled에서 생성한 collides 적용
@@ -135,7 +141,7 @@ class SsafyScene extends Phaser.Scene {
         // this.imageName = 'Ash'
 
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(100, 150, this.characterKey).setDepth(32)
+        this.player = this.physics.add.sprite(45, 730, this.characterKey).setDepth(32)
 
 
         //// tableObject 레이어 생성
@@ -153,6 +159,8 @@ class SsafyScene extends Phaser.Scene {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables4', tableObj.gid - tableTileset4.firstgid)
             } 
         })
+
+        const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
 
          //// chairObject 레이어 생성
          const chairLayer = map.getObjectLayer('chairObject');
@@ -190,6 +198,7 @@ class SsafyScene extends Phaser.Scene {
         // 키보드 입력키 추가
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)   
         // this.wasdKeys = this.input.keyboard.addKeys({
         //     up: Phaser.Input.Keyboard.KeyCodes.W,
         //     down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -214,13 +223,23 @@ class SsafyScene extends Phaser.Scene {
         // console.log(frameNames)
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
-        this.createAnims(this.characterKey, this.imageName)  
+        this.createAnims(this.characterKey, this.imageName)
+
+        // this.input.on('pointerdown',()=> this.scene.start('barmap'))
     }
     
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
         // console.log(this.player.body.x, this.player.body.y); 
+
+        // 맵이동
+        if (this.player.body.x < 20) {
+            // 330-360
+            store.dispatch(changeShop("street"));
+            // 리덕스로 'street' 보냄
+        }
+
 
         let speed = 200;
         // Shift 키를 누르면서 이동하면 빠르게 이동

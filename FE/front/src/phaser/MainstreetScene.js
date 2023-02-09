@@ -15,11 +15,13 @@ import imagelucy from '../assets/character/lucy.png'
 
 import mainstreet from '../assets/mainstreet/mainstreet.json';
 
+import store from '../redux/store';
+import { changeShop } from '../redux/actions';
 
 
 class MainstreetScene extends Phaser.Scene {
     constructor () {
-        super();
+        super('streetmap');
     }
 
     preload ()
@@ -97,7 +99,7 @@ class MainstreetScene extends Phaser.Scene {
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
-        
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)        
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )
         // 1. 경계 밖으로 카메라가 나가지 않도록 설정
@@ -110,6 +112,8 @@ class MainstreetScene extends Phaser.Scene {
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)  
+
+        // this.input.on('pointerdown',()=> this.scene.start('ssafymap'))
     }
     
     // 실시간 반영
@@ -118,6 +122,21 @@ class MainstreetScene extends Phaser.Scene {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
         // console.log(this.player.body.x, this.player.body.y); 
         
+        // 맵이동
+        if (this.player.body.x > 260 && this.player.body.x < 360 && this.spaceBar.isDown) {
+            // 330-360
+            store.dispatch(changeShop("bar"));
+            console.log(store.getState());
+            // 리덕스로 'bar' 보냄
+        }
+
+        if (this.player.body.x > 480 && this.player.body.x < 530 && this.spaceBar.isDown) {
+            // 330-360
+            store.dispatch(changeShop("ssafy"));
+            console.log(store.getState());
+            // 리덕스로 'ssafy' 보냄
+        }
+
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)
         // 1.이전 속도(x,y) 저장

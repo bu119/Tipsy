@@ -8,7 +8,7 @@ const Home = () => {
       <h1>Home</h1>
       <Link to="/about">About</Link>
       <br/> 
-      <Link to="/phaser">Phaser</Link>
+      {/* <Link to="/phaser">Phaser</Link> */}
       <br/> 
       <Link to="/mainstreet">Mainstreet</Link>
       <br/> 

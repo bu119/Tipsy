@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 
 //import Home from "./pages/Home";
-import GameView from "./pages/GameView";
-import MainView from "./pages/MainView";
+// import GameView from "./pages/GameView";
 import About from "./pages/About";
 import QRcode from "./components/QRcode";
 
@@ -15,6 +14,10 @@ import Mypage from './pages/Mypage';
 import Temp from './pages/Temp';
 import Meeting from './pages/Meeting';
 
+import SsafyView from "./pages/SsafyView";
+import BarView from "./pages/BarView";
+import MainView from "./pages/MainView";
+
 function App() {
   return (
     <BrowserRouter>
@@ -22,13 +25,14 @@ function App() {
         <Routes>
           <Route path='/about' element={<About/>}/>
           <Route path='/mainstreet' element={<MainView/>}/>
-          <Route path='/phaser' element={<GameView/>}/>
+          <Route path='/ssafymap' element={<SsafyView/>}/>
+          <Route path='/barmap' element={<BarView/>}/>
+          {/* <Route path='/phaser' element={<GameView/>}/> */}
           <Route path='/QR' element={<QRcode/>}/>
           <Route path='/' element={<Preview/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/mypage' element={<Mypage/>}/>
           <Route path='/temp' element= {<Temp/>}/>
-
           <Route path='/meeting' element= {<Meeting/>}/>
         </Routes>
       </div>

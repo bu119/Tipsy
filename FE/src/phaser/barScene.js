@@ -1,25 +1,23 @@
 import Phaser from 'phaser';
 
-import ssafy_floor_wall from '../assets/ssafyMap/FloorAndGround.png';
-import ssafy_office from '../assets/ssafyMap/Modern_Office.png';
-import ssafy_deco from '../assets/ssafyMap/library.png';
-import ssafy_table1 from '../assets/ssafyMap/table1.png';
-import ssafy_table2 from '../assets/ssafyMap/table2.png';
-import ssafy_table3 from '../assets/ssafyMap/table3.png';
-import ssafy_table4 from '../assets/ssafyMap/table4.png';
-import ssafy_chair from '../assets/ssafyMap/chair.png';
-import ssafy_generic from '../assets/ssafyMap/Generic.png';
-import ssafy_logo1 from '../assets/ssafyMap/ssafy_logo1.png';
-import ssafy_logo2 from '../assets/ssafyMap/ssafy_logo2.png';
-import ssafy_name from '../assets/ssafyMap/name.png';
+import bar_wall from '../assets/barMap/bar_walls.png';
+import bar_floor from '../assets/barMap/bar_floors.png';
+import bar_wine from '../assets/barMap/bar_wineInterior.png';
+import bar_furniture from '../assets/barMap/bar_furniture.png';
+import bar_furniture_deco from '../assets/barMap/bar_furniture_deco.png';
+import bar_deco from '../assets/barMap/bar_floor_wall_deco.png';
+import bar_food from '../assets/barMap/bar_food.png';
+import bar_chair from '../assets/barMap/bar_chairs.png';
 
+// import face from './assets/barMap/face.png'
 import jsonash from '../assets/character/ash.json'
 import imageash from '../assets/character/ash.png'
 import jsonlucy from '../assets/character/lucy.json'
 import imagelucy from '../assets/character/lucy.png'
 
-import ssafy_map from '../assets/ssafyMap/ssafy_map.json';
+import bar_map from '../assets/barMap/bar_map.json';
 
+import profile from '../assets/barMap/profile.png'
 import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 
@@ -29,98 +27,77 @@ let current_table = -1
 let chair_x = -1
 let chair_y = -1
 
-class SsafyScene extends Phaser.Scene {
+class PlayingScene extends Phaser.Scene {
     constructor () {
-        super('ssafymap');
+        super('barmap');
     }
 
     preload ()
     {
         // 플레이어 캐릭터 불러오기
         // image
+        // this.load.image('character', face);
         
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
         // console.log(this.load.atlas('lucy', imagelucy, jsonlucy))
         // 타일맵 이미지 불러오기
-        this.load.image('tilesFloorWall', ssafy_floor_wall);
-        this.load.image('tilesOffice', ssafy_office);
-        this.load.image('tilesDeco', ssafy_deco);
-        this.load.image('tilesGene', ssafy_generic);
-        this.load.image('tileslogo1', ssafy_logo1);
-        this.load.image('tileslogo2', ssafy_logo2);
-        this.load.image('tilesname', ssafy_name);
+        this.load.image('tilesFloor', bar_floor);
+        this.load.image('tilesWall', bar_wall);
+        this.load.image('tilesWine', bar_wine);
+        this.load.image('tilesFurni', bar_furniture);
+        this.load.image('tilesFurniDeco', bar_furniture_deco);
+        this.load.image('tilesDeco', bar_deco);
+        this.load.image('tilesFood', bar_food);
 
-        // tableObject의 책상 이미지 불러오기
-        this.load.image('tilesTable1', ssafy_table1);
-        this.load.spritesheet('tables1', ssafy_table1, {
-            frameWidth: 80,
-            frameHeight: 48,
-        })
-        this.load.image('tilesTable2', ssafy_table2);
-        this.load.spritesheet('tables2', ssafy_table2, {
-            frameWidth: 36,
-            frameHeight: 68,
-        })
-        this.load.image('tilesTable3', ssafy_table3);
-        this.load.spritesheet('tables3', ssafy_table3, {
-            frameWidth: 38,
-            frameHeight: 80,
-        })
-        this.load.image('tilesTable4', ssafy_table4);
-        this.load.spritesheet('tables4', ssafy_table4, {
-            frameWidth: 78,
-            frameHeight: 36,
-        })
-        
-        this.load.image('tilesChair', ssafy_chair);
-        this.load.spritesheet('chairs', ssafy_chair, {
-            frameWidth: 32,
-            frameHeight: 64,
-        })
-        
         // 타일맵 Json 불러오기
-        this.load.tilemapTiledJSON('map', ssafy_map)
+        this.load.tilemapTiledJSON('map', bar_map)
         // this.load.tilemapTiledJSON('map', map2)
+
+        // chairObject의 의자 이미지 불러오기
+        this.load.image('tilesChair', bar_chair);
+        this.load.spritesheet('chairs', bar_chair, {
+            frameWidth: 32,
+            frameHeight: 32,
+        })
+
+        this.load.image('profile', profile);
     }
     
     // 생성하기
     create ()
     {
         //// 맵 생성
-        const map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32});
+        const map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16});
         // 타일 생성
-        const floorWallTileset = map.addTilesetImage("FloorAndGround",'tilesFloorWall');
-        const officeTileset = map.addTilesetImage("Modern_Office",'tilesOffice');
-        const decoTileset = map.addTilesetImage("library",'tilesDeco');
-        const nameTileset = map.addTilesetImage("name",'tilesname');
-        // console.log(nameTileset)
-        const tableTileset1 = map.addTilesetImage("table1",'tilesTable1');
-        const tableTileset2 = map.addTilesetImage("table2",'tilesTable2');
-        const tableTileset3 = map.addTilesetImage("table3",'tilesTable3');
-        const tableTileset4 = map.addTilesetImage("table4",'tilesTable4');
-        
-        const chairTileset = map.addTilesetImage("chair",'tilesChair');
-        const GenericTileset = map.addTilesetImage("Generic",'tilesGene');
-        const logoTileset1 = map.addTilesetImage("ssafylogo1",'tileslogo1');
-        const logoTileset2 = map.addTilesetImage("ssafylogo2",'tileslogo2');
+        const floorTileset = map.addTilesetImage("tilefloor",'tilesFloor');
+        const wallTileset1 = map.addTilesetImage("tilewall",'tilesWall');
+        const wallTileset2 = map.addTilesetImage("tilewine",'tilesWine');
+        const furnitureTileset1 = map.addTilesetImage("tilefurniture",'tilesFurni');
+        const furnitureTileset2 = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
+        const decoTileset = map.addTilesetImage("tiledeco",'tilesDeco');
+        const foodTileset = map.addTilesetImage("tilefood",'tilesFood');
+        const chairTileset = map.addTilesetImage("tilechair", 'tilesChair');
         // const decoTileset = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
         
         // 레이어 생성
         // 2배 확대 : setScale(2) -> setZoom 으로 대체
         // const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0).setScale(2);
-        const layer1 = map.createLayer('floorLayer', floorWallTileset, 0, 0)
-        const layer3 = map.createLayer('shadowLayer', floorWallTileset, 0, 0)
-        const layer2 = map.createLayer('wallLayer', floorWallTileset, 0, 0)
-        const layer6 = map.createLayer('tableLayer', officeTileset, 0, 0)
-        const layer4 = map.createLayer('decoLayer1', [officeTileset, decoTileset, GenericTileset, logoTileset1, logoTileset2,], 0, 0)
-        // const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
+        const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0)
+        const layer2 = map.createLayer('wallLayer', [wallTileset1, wallTileset2], 0, 0)
+        const layer3 = map.createLayer('decoLayer', [furnitureTileset1,furnitureTileset2,decoTileset], 0, 0)
+        const layer4 = map.createLayer('tableLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
+        // const layer5 = map.createLayer('chairLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
+        const layer6 = map.createLayer('foodLayer', [furnitureTileset1, foodTileset], 0, 0)
+        // const layer3 = map.createLayer('Tile Layer 3', tileset3, 0, 0);
+
 
         //// 타일에 충돌(Collision) 적용
         // Tiled에서 생성한 collides 적용
         layer2.setCollisionByProperty({ collides: true });
-        layer6.setCollisionByProperty({ collides: true });
+        layer3.setCollisionByProperty({ collides: true });
+        layer4.setCollisionByProperty({ collides: true });
         
         // Tiled에서 찍은 타일 번호 값 적용
         // 벽
@@ -141,55 +118,44 @@ class SsafyScene extends Phaser.Scene {
         // this.imageName = 'Ash'
 
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(45, 730, this.characterKey).setDepth(32)
+        this.player = this.physics.add.sprite(495, 423, this.characterKey).setScale(0.7).setDepth(32)
 
+        
+        //// chairObject 레이어 생성
+        const chairLayer = map.getObjectLayer('chairObject');
+        const chairs = this.physics.add.staticGroup();
 
-        //// tableObject 레이어 생성
-        const tableLayer = map.getObjectLayer('tableObject');
-        const tables = this.physics.add.staticGroup();
-        tableLayer.objects.forEach((tableObj, i) => {
-            // console.log(tableObj.gid)
-            if (tableObj.gid === 5201) {
-                const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables2', tableObj.gid - tableTileset2.firstgid)
-            } else if (tableObj.gid === 5233) {
-                const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables1', tableObj.gid - tableTileset1.firstgid)
-            } else if (tableObj.gid === 5234) {
-                const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables3', tableObj.gid - tableTileset3.firstgid)
-            } else {
-                const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables4', tableObj.gid - tableTileset4.firstgid)
-            } 
+        const people = [0, 11, 13, 21, 32];
+        chairLayer.objects.forEach((chairObj, i) => {
+            const item = chairs.get(chairObj.x + chairObj.width * 0.5, chairObj.y - chairObj.height * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid)
+            const id = Number(`${i}`)            
+            item.id = id
+            item.sit = chairObj.gid- chairTileset.firstgid
+
+            if (people.includes(id)){
+                this.add.image(item.x, item.y, 'profile').setDepth(10);
+            }
+            else{
+                this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this);
+            }
         })
 
-        const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
+        // const connectLayer = map.getObjectLayer('connectObject');
+        // const connects = this.physics.add.staticGroup()
 
-         //// chairObject 레이어 생성
-         const chairLayer = map.getObjectLayer('chairObject');
-         const chairs = this.physics.add.staticGroup();
-
-         chairLayer.objects.forEach((chairObj, i) => {
-             const item = chairs.get(chairObj.x + chairObj.width * 0.5, chairObj.y - chairObj.height * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid).setDepth(10)
-             const id = Number(`${i}`)            
-             item.id = id
-             item.sit = chairObj.gid- chairTileset.firstgid
-            //  console.log(id, chairObj.gid, chairTileset.firstgid)
-            //  console.log(people.includes(id))
-            //  if (people.indexOf(id) >= 0){
-            //      this.add.image(item.x, item.y, 'profile').setDepth(10);
-            //  }
-            //  else{
-            this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this);
-            //  }
-         })
- 
+        // connectLayer.objects.forEach((connectObj, i) => {
+        //     const area = connects.get(connectObj)
+        // })
+        // this.physics.add.overlap(this.player, connectLayer, ()=>console.log('connect'), null, this);
 
 
         //// 플레이어에 충돌 적용
         // 왜 안돼!!!!!!
         // 플레이어 월드 바깥 이동제한
-        // this.player.setCollideWorldBounds(true);
+        this.player.setCollideWorldBounds(true);
         
         // 타일에 충돌 적용
-        this.physics.add.collider(this.player, [layer2, layer6, tables]);
+        this.physics.add.collider(this.player, [layer2, layer3, layer4]);
         // this.physics.add.collider(this.player, layer3);
         // this.physics.add.collider(this.player, layer4);
 
@@ -198,7 +164,7 @@ class SsafyScene extends Phaser.Scene {
         // 키보드 입력키 추가
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)   
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         // this.wasdKeys = this.input.keyboard.addKeys({
         //     up: Phaser.Input.Keyboard.KeyCodes.W,
         //     down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -214,7 +180,7 @@ class SsafyScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
     
         // 카메라로 맵 2배 확대 (setScale(2) 대신 가능)
-        this.cameras.main.setZoom(1.2);
+        this.cameras.main.setZoom(2);
 
 
         //// 애니메이션 적용
@@ -223,27 +189,20 @@ class SsafyScene extends Phaser.Scene {
         // console.log(frameNames)
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
-        this.createAnims(this.characterKey, this.imageName)
-
-        // this.input.on('pointerdown',()=> this.scene.start('barmap'))
+        this.createAnims(this.characterKey, this.imageName)  
     }
     
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        // console.log(this.player.body.x, this.player.body.y); 
-
-        // 맵이동
-        if (this.player.body.x < 20) {
-            // 330-360
+        // console.log(this.player.body.x, this.player.body.y);         
+        if (this.player.body.y > 440) {
             store.dispatch(changeShop("street"));
             // 리덕스로 'street' 보냄
         }
-
-
-        let speed = 200;
+        let speed = 160;
         // Shift 키를 누르면서 이동하면 빠르게 이동
-        if (this.keyZ.isDown) {speed = 300;}
+        if (this.keyZ.isDown) {speed = 200;}
     
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)
@@ -288,25 +247,33 @@ class SsafyScene extends Phaser.Scene {
         // 'E' 키 눌렀을 때 앉는 모션 추가
         if (this.keyX.isDown && current_table >= 0) {
             // console.log(prevVelocity)
+            // console.log(this.sit)
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
             // console.log(this.overlapChair)
 
             // 나중에 의자 모양에 따라 모션이 바뀌는 걸로 조정 !!!!!!!!!!!!!!!!!!!!!!
             switch(sit){
-                case 9: //옆면
-                    this.player.anims.play(`${this.characterKey}_sit_right`, true);
-                    this.player.setPosition(chair_x + 2, chair_y - 13)
-                    break
-                case 11: //뒷모습
-                    this.player.anims.play(`${this.characterKey}_sit_up`, true)
-                    this.player.setPosition(chair_x, chair_y - 4)
-                    this.player.setDepth(5)
-                    break
-                case 6: //앞면
+                case 0:
                     this.player.anims.play(`${this.characterKey}_sit_down`, true)
-                    this.player.setPosition(chair_x, chair_y - 4)
+                    break
+                case 1:
+                    this.player.anims.play(`${this.characterKey}_sit_right`, true)
+                    break
+                case 2:
+                    this.player.anims.play(`${this.characterKey}_sit_up`, true)
+                    break
+                case 3:
+                    this.player.anims.play(`${this.characterKey}_sit_left`, true)
                     break
             }
+            // if (sit === 3) {this.player.anims.play(`${this.characterKey}_sit_left`, true)}
+            // else if (sit === 1) {this.player.anims.play(`${this.characterKey}_sit_right`, true)}
+            // else if (sit === 2) {this.player.anims.play(`${this.characterKey}_sit_up`, true)}
+            // else if (sit === 0) {this.player.anims.play(`${this.characterKey}_sit_down`, true)}
+            
+            // 의자에 위치에 맞게 아바타 앉히기
+            this.player.setPosition(chair_x, chair_y - 12)
+            console.log(current_chair, current_table) 
         }
 
     }
@@ -473,4 +440,4 @@ class SsafyScene extends Phaser.Scene {
     }   
 }
 
-export default SsafyScene;
+export default PlayingScene;

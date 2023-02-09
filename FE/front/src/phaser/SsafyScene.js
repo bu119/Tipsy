@@ -18,12 +18,18 @@ import jsonlucy from '../assets/character/lucy.json'
 import imagelucy from '../assets/character/lucy.png'
 
 import ssafy_map from '../assets/ssafyMap/ssafy_map.json';
+import room1 from '../assets/roomInfo/room1.png';
+import room2 from '../assets/roomInfo/room2.png';
+import room3 from '../assets/roomInfo/room3.png';
+import room4 from '../assets/roomInfo/room4.png';
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
 let current_table = -1
 let chair_x = -1
 let chair_y = -1
+let table_array = [];
+let roomInfo = ['room1', 'room2', 'room3', 'room4'];
 
 class SsafyScene extends Phaser.Scene {
     constructor () {
@@ -46,6 +52,13 @@ class SsafyScene extends Phaser.Scene {
         this.load.image('tilesGene', ssafy_generic);
         this.load.image('tileslogo1', ssafy_logo1);
         this.load.image('tileslogo2', ssafy_logo2);
+
+        // room 정보 이미지 불러오기
+        this.load.image('room1', room1);
+        this.load.image('room2', room2);
+        this.load.image('room3', room3);
+        this.load.image('room4', room4);
+
 
         // tableObject의 책상 이미지 불러오기
         this.load.image('tilesTable1', ssafy_table1);
@@ -142,16 +155,34 @@ class SsafyScene extends Phaser.Scene {
         const tableLayer = map.getObjectLayer('tableObject');
         const tables = this.physics.add.staticGroup();
         tableLayer.objects.forEach((tableObj, i) => {
+            if (i % 6 === 0){
+                let data = {};
+                data.image = this.add.image(tableObj.x+80, tableObj.y-60, roomInfo[Math.floor(Math.random() * roomInfo.length)])
+                data.image.setDepth(40)
+                data.image.visible = false
+                // data.x = tableObj.x
+                // data.y = tableObj.y
+                table_array.push(data)
+                
+            }
             // console.log(tableObj.gid)
             if (tableObj.gid === 5201) {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables2', tableObj.gid - tableTileset2.firstgid)
+
             } else if (tableObj.gid === 5233) {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables1', tableObj.gid - tableTileset1.firstgid)
+
             } else if (tableObj.gid === 5234) {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables3', tableObj.gid - tableTileset3.firstgid)
+
             } else {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables4', tableObj.gid - tableTileset4.firstgid)
             } 
+            
+
+            // let roomInfo = this.add.image(item.x, item.y, 'room1')
+            // roomInfo.visible = false;
+            // item.room = roomInfo;
         })
 
          //// chairObject 레이어 생성
@@ -169,9 +200,18 @@ class SsafyScene extends Phaser.Scene {
             //      this.add.image(item.x, item.y, 'profile').setDepth(10);
             //  }
             //  else{
+            // let roomInfo = this.add.image(item.x, item.y, 'room1')
+            // roomInfo.visible = false;
+            // item.room = roomInfo;
+
             this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this);
             //  }
          })
+        
+        //  console.log(this.roomInfo)
+        //  this.roomInfo.forEach((room) => {
+        //     console.log(room)
+        //  })
  
 
 
@@ -241,19 +281,35 @@ class SsafyScene extends Phaser.Scene {
             this.player.setVelocityX(-speed);
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
-            current_table = -1
+            if (current_table >= 0){
+                console.log(current_table)
+                table_array[current_table].image.visible = false
+                current_table = -1
+            }
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(speed);
             this.player.anims.play(`${this.characterKey}_run_right`, true);
-            current_table = -1
+            if (current_table >= 0){
+                console.log(current_table)
+                table_array[current_table].image.visible = false
+                current_table = -1
+            }
         } else if (this.cursors.up.isDown) {
             this.player.setVelocityY(-speed);
             this.player.anims.play(`${this.characterKey}_run_up`, true);
-            current_table = -1
+            if (current_table >= 0){
+                table_array[current_table].image.visible = false
+                current_table = -1
+                console.log(current_table)
+            }
         } else if (this.cursors.down.isDown) {
             this.player.setVelocityY(speed);
             this.player.anims.play(`${this.characterKey}_run_down`, true);
-            current_table = -1
+            if (current_table >= 0){
+                console.log(current_table)
+                table_array[current_table].image.visible = false
+                current_table = -1
+            }
         } else {
             // this.player.anims.stop();
             // console.log(prevVelocity)
@@ -263,7 +319,7 @@ class SsafyScene extends Phaser.Scene {
             else if (prevVelocity.x > 0) {this.player.anims.play(`${this.characterKey}_idle_right`, true)}
             else if (prevVelocity.y < 0) {this.player.anims.play(`${this.characterKey}_idle_up`, true)}
             else if (prevVelocity.y > 0) {this.player.anims.play(`${this.characterKey}_idle_down`, true)}
-        }
+        }  
 
         // 앉는 애니메이션 적용
         // 'E' 키 눌렀을 때 앉는 모션 추가
@@ -297,11 +353,14 @@ class SsafyScene extends Phaser.Scene {
     // 현재 접근한 의자
     seat(item){
         if(current_table === -1){
-            current_chair = item.id % 4
-            current_table = parseInt(item.id / 4)
+            current_chair = item.id % 6
+            current_table = parseInt(item.id / 6)
             sit = item.sit
             chair_x = item.x
             chair_y = item.y
+            table_array[current_table].image.visible = true
+            // table_array[current_table].visible = true
+            // item.room.visible = true
             // console.log(parseInt(current_chair / 4), current_chair % 4)
         }
         // // 한자리에 계속 머무를 때
@@ -453,5 +512,4 @@ class SsafyScene extends Phaser.Scene {
         })
     }   
 }
-
 export default SsafyScene;

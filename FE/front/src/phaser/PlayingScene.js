@@ -21,14 +21,18 @@ import profile from '../assets/barMap/profile.png'
 
 //redux
 import store from '../redux/store';
-import { addTodo } from '../redux/actions';
+import { addTodo, completeTodo } from '../redux/actions';
 
 store.subscribe(() => {
     console.log(store.getState());
 })
 
-// store.dispatch(addTodo('coding'));
 // console.log(store.getState());
+// console.log(store.getState());
+// console.log('phaser');
+
+store.dispatch(addTodo("할일"));
+store.dispatch(completeTodo(0));
 
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
@@ -254,7 +258,7 @@ class PlayingScene extends Phaser.Scene {
         // if (this.keyX.isDown && current_table >= 0) {
         if (Phaser.Input.Keyboard.JustDown(this.keyX) && current_table >= 0) {
             // console.log(prevVelocity)
-            // console.log(this.sit)
+            console.log(sit)
             // this.player.anims.play(`${this.characterKey}_sit_left`, true);
             // console.log(this.overlapChair)
 

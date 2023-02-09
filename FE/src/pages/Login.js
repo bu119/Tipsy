@@ -107,17 +107,18 @@ const Login = ()=> {
   const submit = () => {
     console.log(state)
     if (overlap) {
-      axios.post('http://127.0.0.1:8081/user/account', state)
-      //axios.post( 'http://i8d207.p.ssafy.io:8081/user/account', state )
+      // axios.post('http://127.0.0.1:8081/user/account', state)
+      axios.post( 'http://i8d207.p.ssafy.io:8081/user/account', state )
       .then((res) => {
         console.log(res)
         store.dispatch({type:'submit', state:state })
         alert('제출 완료')
       })
       .then(res =>{
-        axios.post(`http://127.0.0.1:8081/user/check`, res.data.userVo)
+        // axios.post(`http://127.0.0.1:8081/user/check`, res.data.userVo)
+        axios.post(`http://i8d207.p.ssafy.io:8081/user/check`, res.data.userVo)
         .then((res) => {
-          navi('/map')
+          navi('/mainstreet')
         })
       })
       .catch((err) => {

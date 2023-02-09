@@ -13,7 +13,6 @@ import Preview from './pages/Preview';
 import Login from './pages/Login';
 import Mypage from './pages/Mypage';
 import Temp from './pages/Temp';
-import Map from './pages/Map';
 import Meeting from './pages/Meeting';
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/mypage' element={<Mypage/>}/>
           <Route path='/temp' element= {<Temp/>}/>
-          <Route path='/map' element= {<Map/>}/>
+
           <Route path='/meeting' element= {<Meeting/>}/>
         </Routes>
       </div>

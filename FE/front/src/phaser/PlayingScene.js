@@ -21,18 +21,20 @@ import profile from '../assets/barMap/profile.png'
 
 //redux
 import store from '../redux/store';
-import { addTodo, completeTodo } from '../redux/actions';
+import { changeShop } from '../redux/actions';
 
-store.subscribe(() => {
-    console.log(store.getState());
-})
+// store.subscribe(() => {
+//     console.log(store.getState());
+// })
 
-// console.log(store.getState());
+console.log(store.getState());
 // console.log(store.getState());
 // console.log('phaser');
 
-store.dispatch(addTodo("할일"));
-store.dispatch(completeTodo(0));
+store.dispatch(changeShop("bar"));
+console.log(store.getState());
+
+// store.dispatch(completeTodo(0));
 
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향

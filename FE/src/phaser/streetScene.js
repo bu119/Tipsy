@@ -136,7 +136,7 @@ class streetScene extends Phaser.Scene {
             // 330-360
             store.dispatch(changeShop("mypage"));
             console.log(store.getState());
-            // 리덕스로 'ssafy' 보냄
+            // 리덕스로 'mypage' 보냄
         }
 
 

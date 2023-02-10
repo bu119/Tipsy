@@ -17,6 +17,7 @@ const config = {
         default:"arcade",                       // arcade라는 물리 엔진을 사용
         arcade:{
             debug: false,
+            // gravity: { y: 300 },
         }
 
     }

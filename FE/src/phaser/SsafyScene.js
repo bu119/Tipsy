@@ -25,8 +25,6 @@ import room2 from '../assets/roomInfo/room2.png';
 import room3 from '../assets/roomInfo/room3.png';
 import room4 from '../assets/roomInfo/room4.png';
 
-
-
 import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 

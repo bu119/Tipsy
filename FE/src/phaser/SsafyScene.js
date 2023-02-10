@@ -163,20 +163,7 @@ class ssafyScene extends Phaser.Scene {
         const tableLayer = map.getObjectLayer('tableObject');
         const tables = this.physics.add.staticGroup();
         tableLayer.objects.forEach((tableObj, i) => {
-            // console.log(tableObj.gid)
-            
-            if (i % 6 === 0){
-                let data = {};
-                data.image = this.add.image(tableObj.x+80, tableObj.y-60, roomInfo[Math.floor(Math.random() * roomInfo.length)])
-                data.image.setDepth(40)
-                data.image.visible = false
-                // data.x = tableObj.x
-                // data.y = tableObj.y
-                table_array.push(data)
-                
-            }
-            
-            
+
             if (tableObj.gid === 5201) {
                 const item = tables.get(tableObj.x + tableObj.width * 0.5, tableObj.y - tableObj.height * 0.5, 'tables2', tableObj.gid - tableTileset2.firstgid)
             } else if (tableObj.gid === 5233) {
@@ -200,22 +187,22 @@ class ssafyScene extends Phaser.Scene {
              const id = Number(`${i}`)            
              item.id = id
              item.sit = chairObj.gid- chairTileset.firstgid
-            //  console.log(id, chairObj.gid, chairTileset.firstgid)
-            //  console.log(people.includes(id))
-            //  if (people.indexOf(id) >= 0){
-            //      this.add.image(item.x, item.y, 'profile').setDepth(10);
-            //  }
-            //  else{
-            this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this);
-            //  }
+            if(i < 72){
+                this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this)
+            };
          })
  
+          //// infoObject 레이어 생성
+          const infoLayer = map.getObjectLayer('infoObject');
+          infoLayer.objects.forEach((infoObj, i) => {              
+                let data = {};
+                data.image = this.add.image(infoObj.x + infoObj.width / 2 + 10, infoObj.y + infoObj.height / 2 - 20, roomInfo[Math.floor(Math.random() * roomInfo.length)])
+                data.image.setDepth(40)
+                data.image.visible = false
+                table_array.push(data)
+          })
 
 
-        //// 플레이어에 충돌 적용
-        // 왜 안돼!!!!!!
-        // 플레이어 월드 바깥 이동제한
-        // this.player.setCollideWorldBounds(true);
         
         // 타일에 충돌 적용
         this.physics.add.collider(this.player, [layer2, layer6, tables]);
@@ -290,7 +277,6 @@ class ssafyScene extends Phaser.Scene {
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
             if (current_table >= 0){
-                console.log(current_table)
                 table_array[current_table].image.visible = false
                 current_table = -1
             }
@@ -299,7 +285,6 @@ class ssafyScene extends Phaser.Scene {
             this.player.setVelocityX(speed);
             this.player.anims.play(`${this.characterKey}_run_right`, true);
             if (current_table >= 0){
-                console.log(current_table)
                 table_array[current_table].image.visible = false
                 current_table = -1
             }
@@ -310,14 +295,12 @@ class ssafyScene extends Phaser.Scene {
             if (current_table >= 0){
                 table_array[current_table].image.visible = false
                 current_table = -1
-                console.log(current_table)
             }
 
         } else if (this.cursors.down.isDown) {
             this.player.setVelocityY(speed);
             this.player.anims.play(`${this.characterKey}_run_down`, true);
             if (current_table >= 0){
-                console.log(current_table)
                 table_array[current_table].image.visible = false
                 current_table = -1
             }

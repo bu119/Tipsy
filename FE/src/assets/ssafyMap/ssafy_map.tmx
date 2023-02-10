@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="41" height="41" tilewidth="32" tileheight="32" infinite="0" nextlayerid="17" nextobjectid="939">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="41" height="41" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="955">
  <editorsettings>
   <export target="ssafy_map.json" format="json"/>
  </editorsettings>
@@ -13088,9 +13088,6 @@
 </data>
  </layer>
  <objectgroup id="12" name="chairObject">
-  <object id="374" gid="5204" x="1206.67" y="160" width="32" height="64"/>
-  <object id="375" gid="5204" x="1213.33" y="550.667" width="32" height="64"/>
-  <object id="376" gid="5204" x="1216" y="1148" width="32" height="64"/>
   <object id="831" gid="5211" x="144.334" y="208.666" width="32" height="64"/>
   <object id="832" gid="5211" x="143" y="273.333" width="32" height="64"/>
   <object id="833" gid="5208" x="247" y="171.999" width="32" height="64"/>
@@ -13163,6 +13160,9 @@
   <object id="900" gid="5208" x="1034.5" y="1094" width="32" height="64"/>
   <object id="901" gid="5213" x="962.5" y="1231.34" width="32" height="64"/>
   <object id="902" gid="5213" x="1044.83" y="1229.67" width="32" height="64"/>
+  <object id="939" gid="5204" x="1188" y="162.667" width="32" height="64"/>
+  <object id="940" gid="5204" x="1186.67" y="534.667" width="32" height="64"/>
+  <object id="941" gid="5204" x="1194.67" y="1149.33" width="32" height="64"/>
  </objectgroup>
  <layer id="5" name="tableLayer" width="41" height="41">
   <data encoding="csv">
@@ -13373,4 +13373,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="17" name="infoObject">
+  <object id="942" x="120" y="116" width="293.333" height="189.333"/>
+  <object id="943" x="453.333" y="120" width="293.333" height="189.333"/>
+  <object id="944" x="812" y="114.667" width="293.333" height="189.333"/>
+  <object id="945" x="118.667" y="352" width="293.333" height="189.333"/>
+  <object id="946" x="449.333" y="353.334" width="293.333" height="189.333"/>
+  <object id="947" x="814.667" y="353.333" width="293.333" height="189.333"/>
+  <object id="948" x="133.333" y="833.333" width="293.333" height="189.333"/>
+  <object id="949" x="470.667" y="834.667" width="293.333" height="189.333"/>
+  <object id="950" x="830.667" y="830.667" width="293.333" height="189.333"/>
+  <object id="951" x="134.667" y="1045.33" width="293.333" height="189.333"/>
+  <object id="953" x="470.667" y="1040" width="293.333" height="189.333"/>
+  <object id="954" x="837.333" y="1042.67" width="293.333" height="189.333"/>
+ </objectgroup>
 </map>

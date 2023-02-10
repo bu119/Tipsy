@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import SsafyScene from './ssafyScene';
+import ssafyScene from './ssafyScene';
 
 // Phaser 환경 설정
 const config = {
@@ -11,7 +11,7 @@ const config = {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-    scene: [SsafyScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
+    scene: [ssafyScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
     physics:{
         default:"arcade",                       // arcade라는 물리 엔진을 사용
         arcade:{

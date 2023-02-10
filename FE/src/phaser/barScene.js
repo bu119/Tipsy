@@ -27,7 +27,7 @@ let current_table = -1
 let chair_x = -1
 let chair_y = -1
 
-class PlayingScene extends Phaser.Scene {
+class barScene extends Phaser.Scene {
     constructor () {
         super('barmap');
     }
@@ -440,4 +440,4 @@ class PlayingScene extends Phaser.Scene {
     }   
 }
 
-export default PlayingScene;
+export default barScene;

@@ -1,7 +1,7 @@
 import Phaser from "phaser";
-import PlayingScene from "./barScene";
-import MainstreetScene from './MainstreetScene';
-import SsafyScene from './ssafyScene';
+import barScene from "./barScene";
+import streetScene from './streetScene';
+import ssafyScene from './ssafyScene';
 
 
 // Phaser 환경 설정
@@ -10,20 +10,19 @@ const config = {
     parent: "game-container",                          // 게임 div의 id
     // parent: 'phaser-example',
     backgroundColor: '#93cbee',
-    // zoom: 2,                                 // 타일 배율 설정
+    // zoom: 2,                                         // 타일 배율 설정
     scale: {
-        // mode: Phaser.Scale.FIT,              // FIT은 브라우저 크기가 변해도 사이즈 비율 유지
-        mode: Phaser.Scale.ScaleModes.RESIZE,   // ScaleModes.RESIZE은 사이즈 크기에 따라 유동적으로 변화
+        // mode: Phaser.Scale.FIT,                      // FIT은 브라우저 크기가 변해도 사이즈 비율 유지
+        mode: Phaser.Scale.ScaleModes.RESIZE,           // ScaleModes.RESIZE은 사이즈 크기에 따라 유동적으로 변화
         width: window.innerWidth,
         height: window.innerHeight,
       },
     // width: 800,
     // height: 600,
-    // scene: [PlayingScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
-    scene: [SsafyScene, MainstreetScene, PlayingScene],                      // 사용할 scene들은 해당 배열에 넣어줘야 함
-    // pixelArt: true,                          // 타일 선명하게
+    scene: [ssafyScene, streetScene, barScene],     // 사용할 scene들은 해당 배열에 넣어줘야 함
+    // pixelArt: true,                                  // 타일 선명하게
     physics:{
-        default:"arcade",                       // arcade라는 물리 엔진을 사용
+        default:"arcade",                               // arcade라는 물리 엔진을 사용
         arcade:{
             debug: false,
         }

@@ -39,7 +39,7 @@ let table_array = [];
 let roomInfo = ['room1', 'room2', 'room3', 'room4'];
 
 
-class SsafyScene extends Phaser.Scene {
+class ssafyScene extends Phaser.Scene {
     constructor () {
         super('ssafymap');
     }
@@ -526,4 +526,4 @@ class SsafyScene extends Phaser.Scene {
     }   
 }
 
-export default SsafyScene;
+export default ssafyScene;

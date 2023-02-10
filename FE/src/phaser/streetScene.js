@@ -19,7 +19,7 @@ import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 
 
-class MainstreetScene extends Phaser.Scene {
+class streetScene extends Phaser.Scene {
     constructor () {
         super('streetmap');
     }
@@ -310,4 +310,4 @@ class MainstreetScene extends Phaser.Scene {
     }   
 }
 
-export default MainstreetScene;
+export default streetScene;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="41" height="43" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="699">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="41" height="43" tilewidth="32" tileheight="32" infinite="0" nextlayerid="18" nextobjectid="737">
  <editorsettings>
   <export target="ssafy_map.json" format="json"/>
  </editorsettings>
@@ -12907,7 +12907,7 @@
  <tileset firstgid="5236" name="name" tilewidth="32" tileheight="32" tilecount="10" columns="10">
   <image source="name.png" width="320" height="32"/>
  </tileset>
- <layer id="1" name="floorLayer" width="41" height="43">
+ <layer id="1" name="floorLayer" width="41" height="43" visible="0">
   <data encoding="csv">
 0,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,0,
 0,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,2375,0,
@@ -12954,7 +12954,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="shadowLayer" width="41" height="43">
+ <layer id="4" name="shadowLayer" width="41" height="43" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -13001,7 +13001,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="2" name="wallLayer" width="41" height="43">
+ <layer id="2" name="wallLayer" width="41" height="43" visible="0">
   <data encoding="csv">
 88,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,1186,90,
 152,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,1190,154,
@@ -13049,9 +13049,6 @@
 </data>
  </layer>
  <objectgroup id="12" name="chairObject">
-  <object id="374" gid="5204" x="1206.67" y="160" width="32" height="64"/>
-  <object id="375" gid="5204" x="1205.33" y="416" width="32" height="64"/>
-  <object id="376" gid="5204" x="1218.67" y="1280" width="32" height="64"/>
   <object id="590" gid="5211" x="145" y="211" width="32" height="64"/>
   <object id="591" gid="5211" x="145" y="271" width="32" height="64"/>
   <object id="592" gid="5208" x="249" y="174" width="32" height="64"/>
@@ -13124,8 +13121,11 @@
   <object id="696" gid="5208" x="1040.17" y="1156.83" width="32" height="64"/>
   <object id="697" gid="5213" x="957.167" y="1292.83" width="32" height="64"/>
   <object id="698" gid="5213" x="1036.17" y="1293.83" width="32" height="64"/>
+  <object id="702" gid="5204" x="1200.21" y="172.331" width="32" height="64"/>
+  <object id="703" gid="5204" x="1195.19" y="426.265" width="32" height="64"/>
+  <object id="704" gid="5204" x="1198.54" y="1289.97" width="32" height="64"/>
  </objectgroup>
- <layer id="5" name="tableLayer" width="41" height="43">
+ <layer id="5" name="tableLayer" width="41" height="43" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -13246,7 +13246,7 @@
   <object id="580" gid="5235" x="931" y="1201.83" width="78" height="36"/>
   <object id="581" gid="5235" x="1008.67" y="1201.5" width="78" height="36"/>
  </objectgroup>
- <layer id="6" name="decoLayer1" width="41" height="43">
+ <layer id="6" name="decoLayer1" width="41" height="43" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,4653,4654,3723,3724,0,2576,0,2576,4653,4654,0,0,0,0,0,2576,4653,4654,2576,0,0,0,2762,2763,4653,4654,0,2576,0,2576,0,0,4653,4654,0,0,0,0,0,
@@ -13293,7 +13293,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="13" name="decoLayer2" width="41" height="43">
+ <layer id="13" name="decoLayer2" width="41" height="43" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -13340,4 +13340,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="17" name="infoObject" opacity="0.9">
+  <object id="725" x="132" y="90.6667" width="278.667" height="214.667"/>
+  <object id="726" x="438" y="88.6665" width="278.667" height="214.667"/>
+  <object id="727" x="804.667" y="95.3332" width="278.667" height="214.667"/>
+  <object id="728" x="136.667" y="339.333" width="278.667" height="214.667"/>
+  <object id="729" x="447.333" y="332.666" width="278.667" height="214.667"/>
+  <object id="730" x="807.333" y="328.666" width="278.667" height="214.667"/>
+  <object id="731" x="136.667" y="864.667" width="278.667" height="214.667"/>
+  <object id="732" x="451.333" y="866" width="278.667" height="214.667"/>
+  <object id="733" x="831.333" y="862" width="278.667" height="214.667"/>
+  <object id="734" x="135.333" y="1096.67" width="278.667" height="214.667"/>
+  <object id="735" x="456.667" y="1096.67" width="278.667" height="214.667"/>
+  <object id="736" x="836.666" y="1091.33" width="278.667" height="214.667"/>
+ </objectgroup>
 </map>

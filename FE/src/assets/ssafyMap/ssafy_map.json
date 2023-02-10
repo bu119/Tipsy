@@ -51,7 +51,7 @@
          "name":"floorLayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
@@ -105,7 +105,7 @@
          "name":"shadowLayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
@@ -159,7 +159,7 @@
          "name":"wallLayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
@@ -169,42 +169,6 @@
          "id":12,
          "name":"chairObject",
          "objects":[
-                {
-                 "class":"",
-                 "gid":5204,
-                 "height":64,
-                 "id":374,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":32,
-                 "x":1206.67,
-                 "y":160
-                }, 
-                {
-                 "class":"",
-                 "gid":5204,
-                 "height":64,
-                 "id":375,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":32,
-                 "x":1205.33,
-                 "y":416
-                }, 
-                {
-                 "class":"",
-                 "gid":5204,
-                 "height":64,
-                 "id":376,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":32,
-                 "x":1218.67,
-                 "y":1280
-                }, 
                 {
                  "class":"",
                  "gid":5211,
@@ -660,8 +624,7 @@
                  "width":32,
                  "x":139.833,
                  "y":1039.5
-                },
-            
+                }, 
                 {
                  "class":"",
                  "gid":5208,
@@ -697,7 +660,8 @@
                  "width":32,
                  "x":243.833,
                  "y":1075.5
-                }, 
+                },
+            
                 {
                  "class":"",
                  "gid":5213,
@@ -1069,6 +1033,42 @@
                  "width":32,
                  "x":1036.17,
                  "y":1293.83
+                }, 
+                {
+                 "class":"",
+                 "gid":5204,
+                 "height":64,
+                 "id":702,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1200.20591270564,
+                 "y":172.331451466035
+                }, 
+                {
+                 "class":"",
+                 "gid":5204,
+                 "height":64,
+                 "id":703,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1195.19407515328,
+                 "y":426.264554118861
+                }, 
+                {
+                 "class":"",
+                 "gid":5204,
+                 "height":64,
+                 "id":704,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1198.53530018819,
+                 "y":1289.97122564196
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1125,7 +1125,7 @@
          "name":"tableLayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
@@ -2055,7 +2055,7 @@
          "name":"decoLayer1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
@@ -2109,13 +2109,156 @@
          "name":"decoLayer2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":41,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":17,
+         "name":"infoObject",
+         "objects":[
+                {
+                 "class":"",
+                 "height":214.666666666667,
+                 "id":725,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.666666666667,
+                 "x":132,
+                 "y":90.6666666666667
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":726,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":437.999833333333,
+                 "y":88.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":727,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":804.6665,
+                 "y":95.3331666666667
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":728,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":136.6665,
+                 "y":339.333166666667
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":729,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":447.333166666667,
+                 "y":332.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":730,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":807.333166666667,
+                 "y":328.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":731,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":136.6665,
+                 "y":864.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":732,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":451.333166666667,
+                 "y":865.999833333333
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":733,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":831.333166666667,
+                 "y":861.999833333333
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":734,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":135.333166666667,
+                 "y":1096.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":735,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":456.6665,
+                 "y":1096.6665
+                }, 
+                {
+                 "class":"",
+                 "height":214.667,
+                 "id":736,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":278.667,
+                 "x":836.6665,
+                 "y":1091.33316666667
+                }],
+         "opacity":0.9,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":16,
- "nextobjectid":699,
+ "nextlayerid":18,
+ "nextobjectid":737,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

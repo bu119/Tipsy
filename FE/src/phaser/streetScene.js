@@ -132,6 +132,13 @@ class streetScene extends Phaser.Scene {
             // 리덕스로 'ssafy' 보냄
         }
 
+        if (this.player.body.x > 730 && this.player.body.x < 840 && this.spaceBar.isDown) {
+            // 330-360
+            store.dispatch(changeShop("mypage"));
+            console.log(store.getState());
+            // 리덕스로 'ssafy' 보냄
+        }
+
 
         //// 속도 설정
         let speed = 160;

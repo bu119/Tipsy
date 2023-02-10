@@ -32,6 +32,9 @@ const GameView = () => {
     } else if (store.getState().shop == 'bar') {
       console.log('bar맵')
       navigate('/barmap')
+    } else if (store.getState().shop == 'mypage') {
+      console.log('mypage')
+      navigate('/mypage')
     }
   })
 

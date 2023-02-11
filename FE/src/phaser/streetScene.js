@@ -1,17 +1,29 @@
 import Phaser from 'phaser';
 
-import background from '../assets/mainstreet/background.png';
-import cloud from '../assets/mainstreet/cloud.png';
-import floor from '../assets/mainstreet/floor.png';
-import grass from '../assets/mainstreet/grass.png';
-import stores from '../assets/mainstreet/stores.png';
+import background from '../assets/street/background.jpg';
+import floor from '../assets/street/floor.png';
+import floor_shadow from '../assets/street/floor_shadow.png';
 
+//campus
+import BU from '../assets/street/BU.png'; 
+import daejeon from '../assets/street/daejeon.png'; 
+import GJ from '../assets/street/GJ.png'; 
+import gumi from '../assets/street/gumi.png'; 
+import seoul from '../assets/street/seoul.png';
+
+//store
+import bar from '../assets/street/bar.png'; 
+import hotel from '../assets/street/hotel.png'; 
+import house from '../assets/street/house.png'; 
+import pub from '../assets/street/pub.png'; 
+
+//animation
 import jsonash from '../assets/character/ash.json'
 import imageash from '../assets/character/ash.png'
 import jsonlucy from '../assets/character/lucy.json'
 import imagelucy from '../assets/character/lucy.png'
 
-import mainstreet from '../assets/mainstreet/mainstreet.json';
+import mainstreet from '../assets/street/map.json';
 
 import store from '../redux/store';
 import { changeShop } from '../redux/actions';
@@ -34,15 +46,25 @@ class streetScene extends Phaser.Scene {
 
         // 타일맵 이미지 불러오기
         this.load.image('background', background);
-        this.load.image('cloud', cloud);
         this.load.image('floor', floor);
-        this.load.image('grass', grass);
+        this.load.image('floor_shadow', floor_shadow);
 
-        this.load.image('tilestore', stores);
-        this.load.spritesheet('stores', stores, {
-            frameWidth: 160,
-            frameHeight: 160,
-        })
+        this.load.image('BU', BU);
+        this.load.image('daejeon', daejeon);
+        this.load.image('GJ', GJ);
+        this.load.image('gumi', gumi);
+        this.load.image('seoul', seoul);
+
+        this.load.image('bar', bar);
+        this.load.image('hotel', hotel);
+        this.load.image('house', house);
+        this.load.image('pub', pub);
+
+        // this.load.image('tilestore', stores);
+        // this.load.spritesheet('stores', stores, {
+        //     frameWidth: 160,
+        //     frameHeight: 160,
+        // })
 
         // 타일맵 Json 불러오기
         this.load.tilemapTiledJSON('map', mainstreet)
@@ -55,18 +77,27 @@ class streetScene extends Phaser.Scene {
         //// 맵 생성
         const map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16});
         // 타일 생성
-        const backgroundTileset = map.addTilesetImage("background",'background');
-        const cloudTileset = map.addTilesetImage("cloud",'cloud');
-        const floorTileset = map.addTilesetImage("floor",'floor');
-        const grassTileset = map.addTilesetImage("grass", 'grass');
-        const storesTileset = map.addTilesetImage("stores", 'stores');
+        const background = map.addTilesetImage("background",'background');
+        const floor = map.addTilesetImage("floor",'floor');
+        const floor_shadow = map.addTilesetImage("floor_shadow",'floor_shadow');
+        
+        const BU = map.addTilesetImage("BU", 'BU');
+        const daejeon = map.addTilesetImage("daejeon", 'daejeon');
+        const GJ = map.addTilesetImage("GJ", 'GJ');
+        const gumi = map.addTilesetImage("gumi", 'gumi');
+        const seoul = map.addTilesetImage("seoul", 'seoul');
+
+        const bar = map.addTilesetImage("bar", 'bar');
+        const hotel = map.addTilesetImage("hotel", 'hotel');
+        const house = map.addTilesetImage("house", 'house');
+        const pub = map.addTilesetImage("pub", 'pub');
+        
         
         // 레이어 생성
         // 2배 확대 : setScale(2) -> setZoom 으로 대체
-        // const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0).setScale(2);
-        const layer1 = map.createLayer('wallLayer', backgroundTileset, 0, 0)
-        const layer2 = map.createLayer('floorLayer', floorTileset, 0, 0)
-        const layer3 = map.createLayer('decoLayer', [cloudTileset, grassTileset], 0, 0)
+        const layer1 = map.createLayer('backgroundLayer', background, 0, 0)
+        const layer2 = map.createLayer('floorLayer', [floor, floor_shadow], 0, 0)
+        const layer3 = map.createLayer('storeLayer', [BU, daejeon, GJ, gumi, seoul, bar, hotel, house, pub], 0, 0)
         
 
         //// 플레이어
@@ -79,15 +110,15 @@ class streetScene extends Phaser.Scene {
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(100, 415, this.characterKey).setScale(0.8).setDepth(32)
         
-        //chairObject 레이어 생성
+        //storeObject 레이어 생성
         const storeLayer = map.getObjectLayer('storeObject');
         const stores = this.physics.add.staticGroup()
-        storeLayer.objects.forEach((storeObj, i) => {
-            const item = stores.get(storeObj.x + 160 * 0.5, storeObj.y - 160 * 0.5, 'stores', storeObj.gid - storesTileset.firstgid)
-            const id = `${i}`
-            item.id = id
-            this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
-        })
+        // storeLayer.objects.forEach((storeObj, i) => {
+        //     const item = stores.get(storeObj.x + 160 * 0.5, storeObj.y - 160 * 0.5, 'stores', storeObj.gid - storesTileset.firstgid)
+        //     const id = `${i}`
+        //     item.id = id
+        //     this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
+        // })
 
         //// 플레이어에 충돌 적용
         // 플레이어 월드 바깥 이동제한

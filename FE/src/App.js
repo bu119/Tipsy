@@ -2,9 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 
-//import Home from "./pages/Home";
 // import GameView from "./pages/GameView";
-import About from "./pages/About";
 import QRcode from "./components/QRcode";
 
 import './App.css';
@@ -23,7 +21,6 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path='/about' element={<About/>}/>
           <Route path='/mainstreet' element={<MainView/>}/>
           <Route path='/ssafymap' element={<SsafyView/>}/>
           <Route path='/barmap' element={<BarView/>}/>

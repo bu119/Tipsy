@@ -9,15 +9,6 @@ import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 
 // 게임 화면 뷰 영역 컴포넌트
-
-// 스타일이 적용된 <section> 렌더링
-// const GameViewContainer = styled.section`
-//   z-index: -1;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-// `;
-
 const BarView = () => {
   // 게임 화면 초기화
   const phaserEl = useRef(null);
@@ -47,10 +38,7 @@ const BarView = () => {
   
   return (
     <div>
-      <Link to="/">Home</Link>
-      {/* <GameViewContainer> */}
-        <div ref={phaserEl} className="game-container"></div>
-      {/* </GameViewContainer> */}
+      <div ref={phaserEl} className="game-container"></div>
     </div>
   );
 };

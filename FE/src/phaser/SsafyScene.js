@@ -25,8 +25,6 @@ import room2 from '../assets/roomInfo/room2.png';
 import room3 from '../assets/roomInfo/room3.png';
 import room4 from '../assets/roomInfo/room4.png';
 
-
-
 import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 
@@ -39,7 +37,7 @@ let table_array = [];
 let roomInfo = ['room1', 'room2', 'room3', 'room4'];
 
 
-class SsafyScene extends Phaser.Scene {
+class ssafyScene extends Phaser.Scene {
     constructor () {
         super('ssafymap');
     }
@@ -129,14 +127,15 @@ class SsafyScene extends Phaser.Scene {
         const layer1 = map.createLayer('floorLayer', floorWallTileset, 0, 0)
         const layer3 = map.createLayer('shadowLayer', floorWallTileset, 0, 0)
         const layer2 = map.createLayer('wallLayer', floorWallTileset, 0, 0)
+        const layer7 = map.createLayer('midwallLayer', floorWallTileset, 0, 0).setDepth(40)
         const layer6 = map.createLayer('tableLayer', officeTileset, 0, 0)
-        const layer4 = map.createLayer('decoLayer1', [officeTileset, decoTileset, GenericTileset, logoTileset1, logoTileset2,], 0, 0)
         // const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
-
+        
         //// 타일에 충돌(Collision) 적용
         // Tiled에서 생성한 collides 적용
         layer2.setCollisionByProperty({ collides: true });
         layer6.setCollisionByProperty({ collides: true });
+        layer7.setCollisionByProperty({ collides: true });
         
         // Tiled에서 찍은 타일 번호 값 적용
         // 벽
@@ -144,22 +143,22 @@ class SsafyScene extends Phaser.Scene {
         // 책상
         // layer3.setCollisionBetween(4195, 4228);
         
-
+        
         //// 플레이어
         // image로 캐릭터 선택
         // this.player = this.physics.add.sprite(100, 150, 'character')
-
+        
         // JSON으로 불러온 캐릭터 적용
         // 캐릭터 선택
         this.characterKey = 'lucy'
         this.imageName = 'Lucy'
         // this.characterKey = 'ash'
         // this.imageName = 'Ash'
-
+        
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(45, 730, this.characterKey).setDepth(32)
-
-
+        this.player = this.physics.add.sprite(45, 690, this.characterKey).setDepth(32)
+        
+        
         //// tableObject 레이어 생성
         const tableLayer = map.getObjectLayer('tableObject');
         const tables = this.physics.add.staticGroup();
@@ -176,8 +175,25 @@ class SsafyScene extends Phaser.Scene {
             } 
             
         })
-
-          //// tableObject 레이어 생성
+        
+        const layer4 = map.createLayer('decoLayer1', [nameTileset, officeTileset, decoTileset, GenericTileset,], 0, 0)
+        const layer5 = map.createLayer('decoLayer2', [officeTileset, logoTileset1, logoTileset2,], 0, 0).setDepth(40)
+        
+        //// chairObject 레이어 생성
+        const chairLayer = map.getObjectLayer('chairObject');
+        const chairs = this.physics.add.staticGroup();
+        
+        chairLayer.objects.forEach((chairObj, i) => {
+            const item = chairs.get(chairObj.x + chairObj.width * 0.5, chairObj.y - chairObj.height * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid).setDepth(10)
+             const id = Number(`${i}`)            
+             item.id = id
+             item.sit = chairObj.gid- chairTileset.firstgid
+            if(i < 72){
+                this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this)
+            };
+         })
+ 
+          //// infoObject 레이어 생성
           const infoLayer = map.getObjectLayer('infoObject');
           infoLayer.objects.forEach((infoObj, i) => {              
                 let data = {};
@@ -187,35 +203,7 @@ class SsafyScene extends Phaser.Scene {
                 table_array.push(data)
           })
 
-        const layer5 = map.createLayer('decoLayer2', [officeTileset, nameTileset], 0, 0)
 
-         //// chairObject 레이어 생성
-         const chairLayer = map.getObjectLayer('chairObject');
-         const chairs = this.physics.add.staticGroup();
-
-         chairLayer.objects.forEach((chairObj, i) => {
-             const item = chairs.get(chairObj.x + chairObj.width * 0.5, chairObj.y - chairObj.height * 0.5, 'chairs', chairObj.gid - chairTileset.firstgid).setDepth(10)
-             const id = Number(`${i}`)            
-             item.id = id
-             item.sit = chairObj.gid- chairTileset.firstgid
-            //  console.log(id, chairObj.gid, chairTileset.firstgid)
-            //  console.log(people.includes(id))
-            //  if (people.indexOf(id) >= 0){
-            //      this.add.image(item.x, item.y, 'profile').setDepth(10);
-            //  }
-            //  else{
-            if(i < 72){
-                this.physics.add.overlap(this.player, item, ()=>this.seat(item), null, this);
-            }
-            //  }
-         })
- 
-
-
-        //// 플레이어에 충돌 적용
-        // 왜 안돼!!!!!!
-        // 플레이어 월드 바깥 이동제한
-        // this.player.setCollideWorldBounds(true);
         
         // 타일에 충돌 적용
         this.physics.add.collider(this.player, [layer2, layer6, tables]);
@@ -243,7 +231,7 @@ class SsafyScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
     
         // 카메라로 맵 2배 확대 (setScale(2) 대신 가능)
-        this.cameras.main.setZoom(1.2);
+        this.cameras.main.setZoom(1.4);
 
 
         //// 애니메이션 적용
@@ -521,4 +509,4 @@ class SsafyScene extends Phaser.Scene {
     }   
 }
 
-export default SsafyScene;
+export default ssafyScene;

@@ -1,6 +1,5 @@
 import phaser from 'phaser';
 import React, { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import phaserConfig from '../phaser/Config';
@@ -52,10 +51,7 @@ const SsafyView = () => {
   
   return (
     <div>
-      <Link to="/">Home</Link>
-      {/* <GameViewContainer> */}
-        <div ref={phaserEl} className="game-container"></div>
-      {/* </GameViewContainer> */}
+      <div ref={phaserEl} className="game-container"></div>
     </div>
   );
 };

@@ -6,8 +6,6 @@ import floor from '../assets/mainstreet/floor.png';
 import grass from '../assets/mainstreet/grass.png';
 import stores from '../assets/mainstreet/stores.png';
 
-
-// import face from './assets/map/face.png'
 import jsonash from '../assets/character/ash.json'
 import imageash from '../assets/character/ash.png'
 import jsonlucy from '../assets/character/lucy.json'
@@ -19,7 +17,7 @@ import store from '../redux/store';
 import { changeShop } from '../redux/actions';
 
 
-class MainstreetScene extends Phaser.Scene {
+class streetScene extends Phaser.Scene {
     constructor () {
         super('streetmap');
     }
@@ -92,14 +90,14 @@ class MainstreetScene extends Phaser.Scene {
         })
 
         //// 플레이어에 충돌 적용
-        // 왜 안돼!!!!!!
         // 플레이어 월드 바깥 이동제한
         this.player.setCollideWorldBounds(true);
         
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)        
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)    
+        this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)    
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )
         // 1. 경계 밖으로 카메라가 나가지 않도록 설정
@@ -112,15 +110,12 @@ class MainstreetScene extends Phaser.Scene {
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)  
-
-        // this.input.on('pointerdown',()=> this.scene.start('ssafymap'))
     }
     
     // 실시간 반영
     update() {
-
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        // console.log(this.player.body.x, this.player.body.y); 
+        console.log(this.player.body.x, this.player.body.y); 
         
         // 맵이동
         if (this.player.body.x > 260 && this.player.body.x < 360 && this.spaceBar.isDown) {
@@ -137,6 +132,19 @@ class MainstreetScene extends Phaser.Scene {
             // 리덕스로 'ssafy' 보냄
         }
 
+        if (this.player.body.x > 730 && this.player.body.x < 840 && this.spaceBar.isDown) {
+            // 330-360
+            store.dispatch(changeShop("mypage"));
+            console.log(store.getState());
+            // 리덕스로 'mypage' 보냄
+        }
+
+
+        //// 속도 설정
+        let speed = 160;
+        // Shift 키를 누르면서 이동하면 빠르게 이동
+        if (this.keyZ.isDown) {speed = 220;}
+
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)
         // 1.이전 속도(x,y) 저장
@@ -146,30 +154,27 @@ class MainstreetScene extends Phaser.Scene {
         
 
         //// 플레이어 이동 & 애니메이션
-        // 앉는 애니메이션 적용 방향
-        let sit = 0
-        
         // 이동 & 애니메이션 적용 (좌우 이동 우선시)
         if (this.cursors.left.isDown) {
             // 플레이어 이동
-            this.player.setVelocityX(-160);
+            this.player.setVelocityX(-speed);
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
-            this.sit = 1
         } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
-            this.player.anims.play(`${this.characterKey}_run_right`, true);
-            this.sit = 2
+            this.player.setVelocityX(speed);
+            this.player.anims.play(`${this.characterKey}_run_right`, true); 
         } else {
-            // this.player.anims.stop();
-            // console.log(prevVelocity)
-
             // 이동하다 멈추면, 사용할 프레임 선택 & idle상태로 전환
             if (prevVelocity.x < 0) {this.player.anims.play(`${this.characterKey}_idle_left`, true)}
             else if (prevVelocity.x > 0) {this.player.anims.play(`${this.characterKey}_idle_right`, true)}
             else if (prevVelocity.y < 0) {this.player.anims.play(`${this.characterKey}_idle_up`, true)}
             else if (prevVelocity.y > 0) {this.player.anims.play(`${this.characterKey}_idle_down`, true)}
         }
+
+        // if (this.cursors.up.isDown && this.player.body.touching.down)
+        // {
+        //     player.setVelocityY(-330);
+        // }
 
     }
 
@@ -310,4 +315,4 @@ class MainstreetScene extends Phaser.Scene {
     }   
 }
 
-export default MainstreetScene;
+export default streetScene;

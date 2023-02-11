@@ -8,8 +8,8 @@ import ssafyConfig from '../phaser/ssafyConfig';
 import barConfig from '../phaser/barConfig';
 // import { useGame } from '../hook/useGame';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux/store';
+// import { changeShop } from '../redux/actions';
 
 // 게임 화면 뷰 영역 컴포넌트
 
@@ -37,17 +37,17 @@ const GameView = () => {
   //   setphaserConfig(barConfig)
   // }
 
-  store.subscribe(() => {
-    let changeMap = store.getState()
-    if (changeMap ==='street') {
-      setphaserConfig(streetConfig)
-    } else if (changeMap ==='ssafy') {
-      setphaserConfig(ssafyConfig)
-    } else {
-      setphaserConfig(barConfig)
-    }
-    console.log(changeMap)
-})
+//   store.subscribe(() => {
+//     let changeMap = store.getState()
+//     if (changeMap ==='street') {
+//       setphaserConfig(streetConfig)
+//     } else if (changeMap ==='ssafy') {
+//       setphaserConfig(ssafyConfig)
+//     } else {
+//       setphaserConfig(barConfig)
+//     }
+//     console.log(changeMap)
+// })
 
   useEffect(() => {
     // console.log('페이져 불러옴');

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import streetConfig from '../phaser/streetConfig';
 // import { useGame } from '../hook/useGame';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux_temp/store';
+// import { changeShop } from '../redux_temp/actions';
 
 // 게임 화면 뷰 영역 컴포넌트
 const GameView = () => {
@@ -15,18 +15,18 @@ const GameView = () => {
   const [startGame, setStartGame] = useState()
   const navigate = useNavigate();
   
-  store.subscribe(() => {
-    if (store.getState().shop ==='ssafy') {
-      console.log('싸피맵')
-      navigate('/ssafymap')
-    } else if (store.getState().shop == 'bar') {
-      console.log('bar맵')
-      navigate('/barmap')
-    } else if (store.getState().shop == 'mypage') {
-      console.log('mypage')
-      navigate('/mypage')
-    }
-  })
+  // store.subscribe(() => {
+  //   if (store.getState().shop ==='ssafy') {
+  //     console.log('싸피맵')
+  //     navigate('/ssafymap')
+  //   } else if (store.getState().shop == 'bar') {
+  //     console.log('bar맵')
+  //     navigate('/barmap')
+  //   } else if (store.getState().shop == 'mypage') {
+  //     console.log('mypage')
+  //     navigate('/mypage')
+  //   }
+  // })
 
   
   // 게임 실행 훅 함수 (만듬)

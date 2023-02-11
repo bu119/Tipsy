@@ -16,24 +16,25 @@ import SsafyView from "./pages/SsafyView";
 import BarView from "./pages/BarView";
 import MainView from "./pages/MainView";
 
+
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path='/mainstreet' element={<MainView/>}/>
-          <Route path='/ssafymap' element={<SsafyView/>}/>
-          <Route path='/barmap' element={<BarView/>}/>
-          {/* <Route path='/phaser' element={<GameView/>}/> */}
-          <Route path='/QR' element={<QRcode/>}/>
-          <Route path='/' element={<Preview/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/mypage' element={<Mypage/>}/>
-          <Route path='/temp' element= {<Temp/>}/>
-          <Route path='/meeting' element= {<Meeting/>}/>
-        </Routes>
-      </div>
-    </BrowserRouter>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path='/mainstreet' element={<MainView/>}/>
+            <Route path='/ssafymap' element={<SsafyView/>}/>
+            <Route path='/barmap' element={<BarView/>}/>
+            {/* <Route path='/phaser' element={<GameView/>}/> */}
+            <Route path='/QR' element={<QRcode/>}/>
+            <Route path='/' element={<Preview/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/mypage' element={<Mypage/>}/>
+            <Route path='/temp' element= {<Temp/>}/>
+            <Route path='/meeting' element= {<Meeting/>}/>
+          </Routes>
+        </div>
+      </BrowserRouter>
   );
 }
 

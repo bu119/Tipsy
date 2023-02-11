@@ -18,8 +18,8 @@ import imagelucy from '../assets/character/lucy.png'
 import bar_map from '../assets/barMap/bar_map.json';
 
 import profile from '../assets/barMap/profile.png'
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux_temp/store';
+// import { changeShop } from '../redux_temp/actions';
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -197,7 +197,7 @@ class barScene extends Phaser.Scene {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
         // console.log(this.player.body.x, this.player.body.y);         
         if (this.player.body.y > 440) {
-            store.dispatch(changeShop("street"));
+            // store.dispatch(changeShop("street"));
             // 리덕스로 'street' 보냄
         }
         let speed = 160;

@@ -8,8 +8,8 @@ import ssafyConfig from '../phaser/ssafyConfig';
 
 // import { useGame } from '../hook/useGame';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux_temp/store';
+// import { changeShop } from '../redux_temp/actions';
 
 // 게임 화면 뷰 영역 컴포넌트
 
@@ -27,11 +27,11 @@ const SsafyView = () => {
   const [startGame, setStartGame] = useState()
   const navigate = useNavigate();
 
-  store.subscribe(() => {
-    if (store.getState().shop ==='street') {
-      navigate('/mainstreet')
-    }
-  })
+  // store.subscribe(() => {
+  //   if (store.getState().shop ==='street') {
+  //     navigate('/mainstreet')
+  //   }
+  // })
 
 
   useEffect(() => {

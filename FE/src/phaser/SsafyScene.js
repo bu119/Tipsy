@@ -25,8 +25,10 @@ import room2 from '../assets/roomInfo/room2.png';
 import room3 from '../assets/roomInfo/room3.png';
 import room4 from '../assets/roomInfo/room4.png';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux_temp/store';
+// import { changeShop } from '../redux_temp/actions';
+
+
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -250,11 +252,11 @@ class ssafyScene extends Phaser.Scene {
         // console.log(this.player.body.x, this.player.body.y); 
 
         // 맵이동
-        if (this.player.body.x < 20) {
-            // 330-360
-            store.dispatch(changeShop("street"));
-            // 리덕스로 'street' 보냄
-        }
+        // if (this.player.body.x < 20) {
+        //     // 330-360
+        //     store.dispatch(changeShop("street"));
+        //     // 리덕스로 'street' 보냄
+        // }
 
 
         let speed = 200;

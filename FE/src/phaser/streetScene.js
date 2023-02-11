@@ -13,11 +13,19 @@ import imagelucy from '../assets/character/lucy.png'
 
 import mainstreet from '../assets/mainstreet/mainstreet.json';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+// import store from '../redux_temp/store';
+// import { changeShop } from '../redux_temp/actions';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { phaserActions } from '../redux/modules/phaserStore';
+
+const dispatch = useDispatch();
+
+const test = useSelector((state) => state.phaser.scene)
 
 class streetScene extends Phaser.Scene {
+
+        
     constructor () {
         super('streetmap');
     }
@@ -120,22 +128,23 @@ class streetScene extends Phaser.Scene {
         // 맵이동
         if (this.player.body.x > 260 && this.player.body.x < 360 && this.spaceBar.isDown) {
             // 330-360
-            store.dispatch(changeShop("bar"));
-            console.log(store.getState());
+            dispatch(phaserActions.getScene("bar"));
+            // dispatch(phaserActions.getScene({table:"bar" }));
+        
             // 리덕스로 'bar' 보냄
         }
 
         if (this.player.body.x > 480 && this.player.body.x < 530 && this.spaceBar.isDown) {
             // 330-360
-            store.dispatch(changeShop("ssafy"));
-            console.log(store.getState());
+            // store.dispatch(changeShop("ssafy"));
+            // console.log(store.getState());
             // 리덕스로 'ssafy' 보냄
         }
 
         if (this.player.body.x > 730 && this.player.body.x < 840 && this.spaceBar.isDown) {
             // 330-360
-            store.dispatch(changeShop("mypage"));
-            console.log(store.getState());
+            // store.dispatch(changeShop("mypage"));
+            // console.log(store.getState());
             // 리덕스로 'mypage' 보냄
         }
 

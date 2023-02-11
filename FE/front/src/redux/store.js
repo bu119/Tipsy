@@ -1,6 +1,11 @@
-import {createStore} from 'redux';
-import { mainstreetApp } from './reducers';
+import { configureStore } from "@reduxjs/toolkit";
+import phaserStoreReducer from "./reducer/phaserStore";
+// import userStoreReducer from "./modules/userStore";
 
-const store = createStore(mainstreetApp);
+const store =  configureStore({
+    reducer: {
+        phaser: phaserStoreReducer,
+    }
+})
 
 export default store;

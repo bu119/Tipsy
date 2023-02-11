@@ -21,7 +21,7 @@ export function useGame (config, containerRef) {
 
 // 게임 실행 (다른 페이지에서 안 없어짐)
 // useEffect(() => {
-//   console.log('페이져 불러옴');
+//   console.log(' 불러옴');
 //   // phaserEl레퍼런스에 phaserConfig 로 scene을 생성
 //   // scene은 phaserEl레퍼런스에 HTMLcanvas를 그리는 식으로 생성된다.
 //   phaserEl.current = new Phaser.Game(phaserConfig);

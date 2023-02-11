@@ -15,7 +15,18 @@ import imagelucy from '../assets/character/lucy.png'
 
 import mainstreet from '../assets/mainstreet/mainstreet.json';
 
+import { useDispatch, useSelector } from "react-redux";
+import { getScene, getTableSeat } from '../redux/reducer/phaserStore';
+
+const test = useSelector((state) => state.phaser);
+const dispatch = useDispatch();
+dispatch(getScene('bar'));
+console.log(test)
+
+
 let current_store = -1
+
+
 
 
 class MainstreetScene extends Phaser.Scene {

@@ -3,6 +3,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import phaserConfig from '../phaser/Config2';
+
+
 // import { useGame } from '../hook/useGame';
 
 // 게임 화면 뷰 영역 컴포넌트
@@ -16,6 +18,7 @@ import phaserConfig from '../phaser/Config2';
 // `;
 
 const GameView = () => {
+
   // 게임 화면 초기화
   const phaserEl = useRef(null);
   const [startGame, setStartGame] = useState()
@@ -24,7 +27,7 @@ const GameView = () => {
   // useGame(phaserConfig, phaserEl);
 
   useEffect(() => {
-    console.log('페이져 불러옴');
+    // console.log('페이져 불러옴');
     if (!startGame && phaserEl.current) {
       const newGame = new phaser.Game(phaserConfig)
       // phaserEl레퍼런스에 phaserConfig 로 scene을 생성

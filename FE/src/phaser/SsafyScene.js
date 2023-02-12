@@ -46,11 +46,12 @@ class ssafyScene extends Phaser.Scene {
     {
         // 플레이어 캐릭터 불러오기
         // image
+        // this.load.image('character', face);
         
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
-        // console.log(this.load.atlas('lucy', imagelucy, jsonlucy))
+
         // 타일맵 이미지 불러오기
         this.load.image('tilesFloorWall', ssafy_floor_wall);
         this.load.image('tilesOffice', ssafy_office);

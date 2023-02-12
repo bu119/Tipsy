@@ -9,7 +9,6 @@ import bar_deco from '../assets/barMap/bar_floor_wall_deco.png';
 import bar_food from '../assets/barMap/bar_food.png';
 import bar_chair from '../assets/barMap/bar_chairs.png';
 
-// import face from './assets/barMap/face.png'
 import jsonash from '../assets/character/ash.json'
 import imageash from '../assets/character/ash.png'
 import jsonlucy from '../assets/character/lucy.json'
@@ -34,14 +33,11 @@ class barScene extends Phaser.Scene {
 
     preload ()
     {
-        // 플레이어 캐릭터 불러오기
-        // image
-        // this.load.image('character', face);
-        
+        //// 캐릭터 불러오기
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
-        // console.log(this.load.atlas('lucy', imagelucy, jsonlucy))
+     
         // 타일맵 이미지 불러오기
         this.load.image('tilesFloor', bar_floor);
         this.load.image('tilesWall', bar_wall);
@@ -53,7 +49,6 @@ class barScene extends Phaser.Scene {
 
         // 타일맵 Json 불러오기
         this.load.tilemapTiledJSON('map', bar_map)
-        // this.load.tilemapTiledJSON('map', map2)
 
         // chairObject의 의자 이미지 불러오기
         this.load.image('tilesChair', bar_chair);
@@ -79,18 +74,13 @@ class barScene extends Phaser.Scene {
         const decoTileset = map.addTilesetImage("tiledeco",'tilesDeco');
         const foodTileset = map.addTilesetImage("tilefood",'tilesFood');
         const chairTileset = map.addTilesetImage("tilechair", 'tilesChair');
-        // const decoTileset = map.addTilesetImage("tilefurnituredeco",'tilesFurniDeco');
-        
+
         // 레이어 생성
-        // 2배 확대 : setScale(2) -> setZoom 으로 대체
-        // const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0).setScale(2);
         const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0)
         const layer2 = map.createLayer('wallLayer', [wallTileset1, wallTileset2], 0, 0)
         const layer3 = map.createLayer('decoLayer', [furnitureTileset1,furnitureTileset2,decoTileset], 0, 0)
         const layer4 = map.createLayer('tableLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
-        // const layer5 = map.createLayer('chairLayer', [furnitureTileset1,furnitureTileset2], 0, 0)
         const layer6 = map.createLayer('foodLayer', [furnitureTileset1, foodTileset], 0, 0)
-        // const layer3 = map.createLayer('Tile Layer 3', tileset3, 0, 0);
 
 
         //// 타일에 충돌(Collision) 적용
@@ -99,17 +89,8 @@ class barScene extends Phaser.Scene {
         layer3.setCollisionByProperty({ collides: true });
         layer4.setCollisionByProperty({ collides: true });
         
-        // Tiled에서 찍은 타일 번호 값 적용
-        // 벽
-        // layer2.setCollisionBetween(803, 1797);
-        // 책상
-        // layer3.setCollisionBetween(4195, 4228);
-        
 
         //// 플레이어
-        // image로 캐릭터 선택
-        // this.player = this.physics.add.sprite(100, 150, 'character')
-
         // JSON으로 불러온 캐릭터 적용
         // 캐릭터 선택
         this.characterKey = 'lucy'
@@ -120,7 +101,6 @@ class barScene extends Phaser.Scene {
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(495, 423, this.characterKey).setScale(0.7).setDepth(32)
 
-        
         //// chairObject 레이어 생성
         const chairLayer = map.getObjectLayer('chairObject');
         const chairs = this.physics.add.staticGroup();
@@ -140,24 +120,9 @@ class barScene extends Phaser.Scene {
             }
         })
 
-        // const connectLayer = map.getObjectLayer('connectObject');
-        // const connects = this.physics.add.staticGroup()
-
-        // connectLayer.objects.forEach((connectObj, i) => {
-        //     const area = connects.get(connectObj)
-        // })
-        // this.physics.add.overlap(this.player, connectLayer, ()=>console.log('connect'), null, this);
-
-
-        //// 플레이어에 충돌 적용
-        // 왜 안돼!!!!!!
-        // 플레이어 월드 바깥 이동제한
-        this.player.setCollideWorldBounds(true);
-        
         // 타일에 충돌 적용
         this.physics.add.collider(this.player, [layer2, layer3, layer4]);
-        // this.physics.add.collider(this.player, layer3);
-        // this.physics.add.collider(this.player, layer4);
+
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -165,12 +130,6 @@ class barScene extends Phaser.Scene {
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-        // this.wasdKeys = this.input.keyboard.addKeys({
-        //     up: Phaser.Input.Keyboard.KeyCodes.W,
-        //     down: Phaser.Input.Keyboard.KeyCodes.S,
-        //     left: Phaser.Input.Keyboard.KeyCodes.A,
-        //     right: Phaser.Input.Keyboard.KeyCodes.D,
-        //   });
         
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )

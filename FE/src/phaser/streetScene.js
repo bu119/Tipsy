@@ -36,10 +36,7 @@ class streetScene extends Phaser.Scene {
 
     preload ()
     {
-        // 플레이어 캐릭터 불러오기
-        // image
-        // this.load.image('character', face);
-        
+        //// 캐릭터 불러오기
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
@@ -120,9 +117,10 @@ class streetScene extends Phaser.Scene {
         //     this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
         // })
 
+        
         //// 플레이어에 충돌 적용
         // 플레이어 월드 바깥 이동제한
-        this.player.setCollideWorldBounds(true);
+        // this.player.setCollideWorldBounds(true);
         
 
         //// 키보드 입력기
@@ -181,7 +179,7 @@ class streetScene extends Phaser.Scene {
         // 1.이전 속도(x,y) 저장
         const prevVelocity = this.player.body.velocity.clone();
         // 2.이전 프레임의 속도를 0으로 설정
-        this.player.setVelocity(0);         // (setVelocityY(0);, setVelocityX(0);)
+        this.player.setVelocity(0);
         
 
         //// 플레이어 이동 & 애니메이션
@@ -215,7 +213,6 @@ class streetScene extends Phaser.Scene {
     // 애니메이션 움직임 함수 생성
     createAnims(characterKey,imageName) {
         this.anims.create({
-            // key: 'ash_idle_right',
             key: `${characterKey}_idle_right`,
             frames: this.anims.generateFrameNames(characterKey, {
             prefix: `${imageName}_idle_anim_`,
@@ -223,9 +220,7 @@ class streetScene extends Phaser.Scene {
               start: 1,
               end: 6,
             }),
-            // 반복
             repeat: -1,
-            // 프레임 속도
             frameRate: 6
             })
           
@@ -319,28 +314,24 @@ class streetScene extends Phaser.Scene {
         this.anims.create({
             key: `${characterKey}_sit_down`,
             frames: [{ key: characterKey, frame:`${imageName}_sit_down.png`}],
-            // repeat: 0,
             frameRate: 20,
         })
         
         this.anims.create({
             key: `${characterKey}_sit_left`,
             frames: [{ key: characterKey, frame:`${imageName}_sit_left.png`}],
-            // repeat: 0,
             frameRate: 20,
         })
     
         this.anims.create({
             key: `${characterKey}_sit_right`,
             frames: [{ key: characterKey, frame:`${imageName}_sit_right.png`}],
-            // repeat: 0,
             frameRate: 20,
         })
     
         this.anims.create({
             key: `${characterKey}_sit_up`,
             frames: [{ key: characterKey, frame:`${imageName}_sit_up.png`}],
-            // repeat: 0,
             frameRate: 20,
         })
     }   

@@ -105,7 +105,7 @@ class streetScene extends Phaser.Scene {
 
 
         // 캐릭터 & 시작 위치 설정
-        this.player = this.physics.add.sprite(100, 415, this.characterKey).setScale(0.8).setDepth(32)
+        this.player = this.physics.add.sprite(100, 415, this.characterKey).setScale(0.7).setDepth(32)
         
         //storeObject 레이어 생성
         const storeLayer = map.getObjectLayer('storeObject');
@@ -135,7 +135,7 @@ class streetScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
     
         // 카메라로 맵 2배 확대 (setScale(2) 대신 가능)
-        this.cameras.main.setZoom(1.7);
+        this.cameras.main.setZoom(2);
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)  

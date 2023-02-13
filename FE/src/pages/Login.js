@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import store from "../store";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { authSubmit } from "../redux/authSlice";
 
 let overlap = false
 const Login = ()=> {
+  const dispatch = useDispatch()
+
   
   //특수 문자 정규표현식
   const regExp = /^[ㄱ-힣a-zA-Z0-9]+$/; 
@@ -111,7 +113,7 @@ const Login = ()=> {
       axios.post( 'http://i8d207.p.ssafy.io:8081/user/account', state )
       .then((res) => {
         console.log(res)
-        store.dispatch({type:'submit', state:state })
+        dispatch(authSubmit(res))
         alert('제출 완료')
       })
       .then(res =>{

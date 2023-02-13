@@ -17,9 +17,15 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    authSubmit(state) {
-      state = {}
-      return state
+    authSubmit(state, action) {
+      if (state === undefined){
+        localStorage.state ?
+          JSON.parse(localStorage.state): initialState
+      }
+        state = action.payload;
+        //local storage에 저장
+        console.log(state)
+        localStorage.setItem('state', JSON.stringify(state))
     }
   },
 })

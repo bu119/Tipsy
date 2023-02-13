@@ -1,11 +1,11 @@
 import React from "react";
-import store from "../store";
 import './Mypage.css'
+import { useSelector } from "react-redux";
 
 
 function Mypage() {
   //로컬 스토리지에서 받아오기
-  const userdata = store.getState()
+  const userdata = useSelector((state) => state.auth)
 	console.log(userdata)
 	const interest = userdata.interest.split(',')
   return (

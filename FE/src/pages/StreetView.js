@@ -28,11 +28,12 @@ const StreetView = () => {
   const navigate = useNavigate(); 
   const changeScene = useSelector((state) => state.game.scene)
   
-  // const url = "http://localhost:8081/room";
+  const url = "http://i8d207.p.ssafy.io:8083";
+
 
   const getBuilding = () => {
     axios
-      .get(url)
+      .get(`${url}/room`)
       .then((res) => {
         console.log("건물별 정보");
         console.log(res);
@@ -47,6 +48,9 @@ const StreetView = () => {
       });
   };
 
+  useEffect(() => {
+    getBuilding()
+  }, [])
 
   useEffect(() => {
     // console.log(changeScene)

@@ -24,6 +24,7 @@ const SsafyView = () => {
   const storeNum = 1
   const url = 'http://i8d207.p.ssafy.io:8083'
 
+
   const getTable = () => {
     axios
       .get(`${url}/room/${storeNum}`)
@@ -39,6 +40,36 @@ const SsafyView = () => {
         }
       });
   };
+
+  // 방생성
+  const createRoom = () => {
+    console.log(room);
+    axios
+      .post(url, { 
+        code: room.code,
+        title: room.code,
+        max: room.max,
+        password: room.password,
+        antrance: room.antrance,
+        silence: room.silence,
+        hashtag: [room.hashtag]
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        console.log(e);
+        // 403 에러가 발생한 경우
+        if (e.response && e.response.status === 403) {
+          console.log("로그인으로 이동");
+        }
+      });
+  };
+
+
+  useEffect(() => {
+    getTable()
+  }, [])
 
 
   useEffect(() => {

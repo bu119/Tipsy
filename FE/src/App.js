@@ -14,14 +14,14 @@ import Meeting from './pages/Meeting';
 
 import SsafyView from "./pages/SsafyView";
 import BarView from "./pages/BarView";
-import MainView from "./pages/MainView";
+import StreetView from "./pages/StreetView";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path='/mainstreet' element={<MainView/>}/>
+          <Route path='/mainstreet' element={<StreetView/>}/>
           <Route path='/ssafymap' element={<SsafyView/>}/>
           <Route path='/barmap' element={<BarView/>}/>
           {/* <Route path='/phaser' element={<GameView/>}/> */}

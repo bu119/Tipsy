@@ -1,6 +1,10 @@
-import {createStore} from 'redux';
-import { mainstreetApp } from './reducers';
+import { configureStore } from '@reduxjs/toolkit'
+import gameReducer from './gameSlice'
+import authReducer from './authSlice'
 
-const store = createStore(mainstreetApp);
-
-export default store;
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    game: gameReducer,
+  },
+})

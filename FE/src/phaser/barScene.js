@@ -15,10 +15,11 @@ import jsonlucy from '../assets/character/lucy.json'
 import imagelucy from '../assets/character/lucy.png'
 
 import bar_map from '../assets/barMap/bar_map.json';
-
 import profile from '../assets/barMap/profile.png'
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+
+import { getScene } from '../redux/gameSlice';
+import { store } from '../redux/store';
+
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -33,11 +34,12 @@ class barScene extends Phaser.Scene {
 
     preload ()
     {
-        //// 캐릭터 불러오기
+        // 플레이어 캐릭터 불러오기
+       
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
-     
+
         // 타일맵 이미지 불러오기
         this.load.image('tilesFloor', bar_floor);
         this.load.image('tilesWall', bar_wall);
@@ -74,8 +76,10 @@ class barScene extends Phaser.Scene {
         const decoTileset = map.addTilesetImage("tiledeco",'tilesDeco');
         const foodTileset = map.addTilesetImage("tilefood",'tilesFood');
         const chairTileset = map.addTilesetImage("tilechair", 'tilesChair');
-
+        
         // 레이어 생성
+        // 2배 확대 : setScale(2) -> setZoom 으로 대체
+        // const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0).setScale(2);
         const layer1 = map.createLayer('floorLayer', floorTileset, 0, 0)
         const layer2 = map.createLayer('wallLayer', [wallTileset1, wallTileset2], 0, 0)
         const layer3 = map.createLayer('decoLayer', [furnitureTileset1,furnitureTileset2,decoTileset], 0, 0)
@@ -88,7 +92,6 @@ class barScene extends Phaser.Scene {
         layer2.setCollisionByProperty({ collides: true });
         layer3.setCollisionByProperty({ collides: true });
         layer4.setCollisionByProperty({ collides: true });
-        
 
         //// 플레이어
         // JSON으로 불러온 캐릭터 적용
@@ -101,6 +104,7 @@ class barScene extends Phaser.Scene {
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(495, 423, this.characterKey).setScale(0.7).setDepth(32)
 
+        
         //// chairObject 레이어 생성
         const chairLayer = map.getObjectLayer('chairObject');
         const chairs = this.physics.add.staticGroup();
@@ -120,9 +124,23 @@ class barScene extends Phaser.Scene {
             }
         })
 
+        // const connectLayer = map.getObjectLayer('connectObject');
+        // const connects = this.physics.add.staticGroup()
+
+        // connectLayer.objects.forEach((connectObj, i) => {
+        //     const area = connects.get(connectObj)
+        // })
+        // this.physics.add.overlap(this.player, connectLayer, ()=>console.log('connect'), null, this);
+
+
+        //// 플레이어에 충돌 적용
+        // 플레이어 월드 바깥 이동제한
+        // this.player.setCollideWorldBounds(true);
+        
         // 타일에 충돌 적용
         this.physics.add.collider(this.player, [layer2, layer3, layer4]);
-
+        // this.physics.add.collider(this.player, layer3);
+        // this.physics.add.collider(this.player, layer4);
 
         //// 키보드 입력기
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -130,7 +148,7 @@ class barScene extends Phaser.Scene {
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-        
+   
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )
         // 1. 경계 밖으로 카메라가 나가지 않도록 설정
@@ -145,7 +163,6 @@ class barScene extends Phaser.Scene {
         //// 애니메이션 적용
         // 사용할수있는 모든 프레임 이름 추출
         // const frameNames= this.textures.get(`${characterKey}`).getFrameNames();
-        // console.log(frameNames)
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)  
@@ -154,11 +171,13 @@ class barScene extends Phaser.Scene {
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        // console.log(this.player.body.x, this.player.body.y);         
+        // console.log(this.player.body.x, this.player.body.y); 
+                
         if (this.player.body.y > 440) {
-            store.dispatch(changeShop("street"));
+            store.dispatch(getScene("street"))
             // 리덕스로 'street' 보냄
         }
+
         let speed = 160;
         // Shift 키를 누르면서 이동하면 빠르게 이동
         if (this.keyZ.isDown) {speed = 200;}

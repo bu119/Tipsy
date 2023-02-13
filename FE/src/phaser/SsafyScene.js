@@ -25,8 +25,11 @@ import room2 from '../assets/roomInfo/room2.png';
 import room3 from '../assets/roomInfo/room3.png';
 import room4 from '../assets/roomInfo/room4.png';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
+import { getScene } from '../redux/gameSlice';
+import { getChair } from '../redux/gameSlice';
+import { getTable } from '../redux/gameSlice';
+import { store } from '../redux/store';
+
 
 let sit = -1; // 전역변수 : 선택한 의자의 방향
 let current_chair = -1
@@ -37,6 +40,8 @@ let table_array = [];
 let roomInfo = ['room1', 'room2', 'room3', 'room4'];
 
 
+// console.log(store.dispatch(getScene("zzz")))
+
 class ssafyScene extends Phaser.Scene {
     constructor () {
         super('ssafymap');
@@ -46,12 +51,11 @@ class ssafyScene extends Phaser.Scene {
     {
         // 플레이어 캐릭터 불러오기
         // image
-        // this.load.image('character', face);
         
         // Json (키: ash or lucy)
         this.load.atlas('ash', imageash, jsonash)
         this.load.atlas('lucy', imagelucy, jsonlucy)
-
+        // console.log(this.load.atlas('lucy', imagelucy, jsonlucy))
         // 타일맵 이미지 불러오기
         this.load.image('tilesFloorWall', ssafy_floor_wall);
         this.load.image('tilesOffice', ssafy_office);
@@ -204,7 +208,6 @@ class ssafyScene extends Phaser.Scene {
           })
 
 
-        
         // 타일에 충돌 적용
         this.physics.add.collider(this.player, [layer2, layer6, tables]);
         // this.physics.add.collider(this.player, layer3);
@@ -216,13 +219,7 @@ class ssafyScene extends Phaser.Scene {
         this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
         this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)   
-        // this.wasdKeys = this.input.keyboard.addKeys({
-        //     up: Phaser.Input.Keyboard.KeyCodes.W,
-        //     down: Phaser.Input.Keyboard.KeyCodes.S,
-        //     left: Phaser.Input.Keyboard.KeyCodes.A,
-        //     right: Phaser.Input.Keyboard.KeyCodes.D,
-        //   });
-        
+
 
         //// 카메라 설정 ( 순서 중요!!!!!!!! )
         // 1. 경계 밖으로 카메라가 나가지 않도록 설정
@@ -241,8 +238,6 @@ class ssafyScene extends Phaser.Scene {
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)
-
-        // this.input.on('pointerdown',()=> this.scene.start('barmap'))
     }
     
     // 실시간 반영
@@ -252,8 +247,11 @@ class ssafyScene extends Phaser.Scene {
 
         // 맵이동
         if (this.player.body.x < 20) {
+            console.log('street로 보내')
             // 330-360
-            store.dispatch(changeShop("street"));
+            store.dispatch(getScene("street"));
+            // const dispatch = useDispatch()
+            // dispatch(getScene('street'))
             // 리덕스로 'street' 보냄
         }
 
@@ -261,7 +259,7 @@ class ssafyScene extends Phaser.Scene {
         let speed = 200;
         // Shift 키를 누르면서 이동하면 빠르게 이동
         if (this.keyZ.isDown) {speed = 300;}
-    
+
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)
         // 1.이전 속도(x,y) 저장
@@ -340,6 +338,10 @@ class ssafyScene extends Phaser.Scene {
                     this.player.setPosition(chair_x, chair_y - 4)
                     break
             }
+
+            store.dispatch(getChair(current_chair));
+            store.dispatch(getTable(current_table));
+
         }
 
     }
@@ -371,7 +373,6 @@ class ssafyScene extends Phaser.Scene {
         //     console.log(parseInt(current_chair / 4), current_chair % 4)
         // }
     }
-
 
 
     // 애니메이션 움직임 함수 생성

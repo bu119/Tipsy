@@ -1,38 +1,93 @@
 import phaser from 'phaser';
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-// import phaserConfig from '../phaser/Config';
-
 import ssafyConfig from '../phaser/ssafyConfig';
+import axios from "axios";
 
-// import { useGame } from '../hook/useGame';
+// 리덕스
+import { useSelector } from 'react-redux'
+// useSelector 데이터 읽기
+// useDispatch 데이터 전달
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
 
 // 게임 화면 뷰 영역 컴포넌트
-
-// 스타일이 적용된 <section> 렌더링
-// const GameViewContainer = styled.section`
-//   z-index: -1;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-// `;
-
 const SsafyView = () => {
   // 게임 화면 초기화
   const phaserEl = useRef(null);
   const [startGame, setStartGame] = useState()
   const navigate = useNavigate();
+  const changeScene = useSelector((state) => state.game.scene)
+  const currentChair = useSelector((state) => state.game.chair)
+  const currentTable = useSelector((state) => state.game.table)
+  const roomNum = `10${currentTable}`
+  // 건물번호 1,2,3
+  const storeNum = 1
+  const url = 'http://i8d207.p.ssafy.io:8083'
 
-  store.subscribe(() => {
-    if (store.getState().shop ==='street') {
+
+  const getTable = () => {
+    axios
+      .get(`${url}/room/${storeNum}`)
+      .then((res) => {
+        console.log({ storeNum } + "번 건물 테이블 정보");
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+        // 403 에러가 발생한 경우
+        if (e.response && e.response.status === 403) {
+          console.log("로그인으로 이동");
+        }
+      });
+  };
+
+  // 방생성
+  const createRoom = () => {
+    console.log(room);
+    axios
+      .post(url, { 
+        code: room.code,
+        title: room.code,
+        max: room.max,
+        password: room.password,
+        antrance: room.antrance,
+        silence: room.silence,
+        hashtag: [room.hashtag]
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        console.log(e);
+        // 403 에러가 발생한 경우
+        if (e.response && e.response.status === 403) {
+          console.log("로그인으로 이동");
+        }
+      });
+  };
+
+
+  useEffect(() => {
+    getTable()
+  }, [])
+
+
+  useEffect(() => {
+    console.log(changeScene)
+    if (changeScene ==='street') {
       navigate('/mainstreet')
     }
-  })
+  }, [changeScene])
 
+
+  useEffect(() => {
+
+
+    console.log(roomNum)
+    console.log(currentChair, currentTable)
+    // navigate(`/meetinge/${roomNum}`)
+  }, [currentChair, currentTable, roomNum])
+  
 
   useEffect(() => {
     // console.log('페이져 불러옴');

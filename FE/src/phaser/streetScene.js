@@ -11,7 +11,7 @@ import GJ from '../assets/street/GJ.png';
 import gumi from '../assets/street/gumi.png'; 
 import seoul from '../assets/street/seoul.png';
 
-//store
+//building
 import bar from '../assets/street/bar.png'; 
 import hotel from '../assets/street/hotel.png'; 
 import house from '../assets/street/house.png'; 
@@ -30,12 +30,13 @@ import room2 from '../assets/roomInfo/room2.png';
 import room3 from '../assets/roomInfo/room3.png';
 import room4 from '../assets/roomInfo/room4.png';
 
-import store from '../redux/store';
-import { changeShop } from '../redux/actions';
 
-let current_store = -1;
-let storeInfo = ['mypage', 'bar', 'pub', 'BU', 'daejeon', 'GJ', 'seoul', 'gumi', 'hotel']
+import { getScene } from '../redux/gameSlice';
+import { store } from '../redux/store';
 
+
+let current_building = -1;
+let buildingInfo = ['mypage', 'bar', 'pub', 'BU', 'daejeon', 'GJ', 'seoul', 'ssafy', 'hotel']
 
 
 class streetScene extends Phaser.Scene {
@@ -119,14 +120,14 @@ class streetScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(100, 415, this.characterKey).setScale(0.7).setDepth(32)
 
         //storeObject 레이어 생성
-        const storeLayer = map.getObjectLayer('storeObject');
-        storeLayer.objects.forEach((storeObj, i) => {
-            storeObj.id = storeInfo[i]
-            storeObj.image = this.add.image(storeObj.x + storeObj.width / 2 + 10, storeObj.y + storeObj.height / 2 - 20, 'room1')
-            storeObj.image.visible = false
+        const buildingLayer = map.getObjectLayer('storeObject');
+        buildingLayer.objects.forEach((buildingObj, i) => {
+            buildingObj.id = buildingInfo[i]
+            buildingObj.image = this.add.image(buildingObj.x + buildingObj.width / 2 + 10, buildingObj.y + buildingObj.height / 2 - 20, 'room1')
+            buildingObj.image.visible = false
         })
 
-        this.stores = storeLayer.objects
+        this.buildings = buildingLayer.objects
         
         //// 플레이어에 충돌 적용
         // 플레이어 월드 바깥 이동제한
@@ -145,7 +146,7 @@ class streetScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
     
         // 카메라로 맵 2배 확대 (setScale(2) 대신 가능)
-        this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(1.5);
 
         // 애니메이션 함수 적용 (애니메이션 움직임을 createAnims함수로 만듬)
         this.createAnims(this.characterKey, this.imageName)  
@@ -157,24 +158,25 @@ class streetScene extends Phaser.Scene {
         // console.log(this.player.body.x, this.player.body.y); 
 
         // 맵이동
-        this.stores.forEach((store) => {
-             if (this.player.body.x > store.x && this.player.body.x < store.x + store.width ) {
-                store.image.visible = true;
+        this.buildings.forEach((building) => {
+             if (this.player.body.x > building.x && this.player.body.x < building.x + building.width ) {
+                building.image.visible = true;
                 if(Phaser.Input.Keyboard.JustDown(this.spaceBar)){
-                    console.log(store.id);
+                    store.dispatch(getScene(building.id))
+                    console.log(building.id);
                 }
             }
             else{
-                store.image.visible = false;
+                building.image.visible = false;
             }
 
         })
 
 
         //// 속도 설정
-        let speed = 160;
+        let speed = 180;
         // Shift 키를 누르면서 이동하면 빠르게 이동
-        if (this.keyZ.isDown) {speed = 220;}
+        if (this.keyZ.isDown) {speed = 280;}
 
 
         //// 이전 속도 (애니메이션 적용에 순서 중요!!!!)

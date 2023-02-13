@@ -30,7 +30,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/mypage' element={<Mypage/>}/>
           <Route path='/temp' element= {<Temp/>}/>
-          <Route path='/meeting' element= {<Meeting/>}/>
+          <Route path='/meeting/:id' element= {<Meeting/>}/>
         </Routes>
       </div>
     </BrowserRouter>

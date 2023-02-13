@@ -19,9 +19,13 @@ const SsafyView = () => {
   const changeScene = useSelector((state) => state.game.scene)
   const currentChair = useSelector((state) => state.game.chair)
   const currentTable = useSelector((state) => state.game.table)
-  const roomNum = `10${currentTable}`
-  // 건물번호 1,2,3
+  const RoomNum = ''
+
+  // const [RoomNum, setRoomNum] = useState()
   const storeNum = 1
+  
+
+  // 건물번호 1,2,3
   const url = 'http://i8d207.p.ssafy.io:8083'
 
 
@@ -29,8 +33,8 @@ const SsafyView = () => {
     axios
       .get(`${url}/room/${storeNum}`)
       .then((res) => {
-        console.log({ storeNum } + "번 건물 테이블 정보");
-        console.log(res);
+        // console.log({ storeNum } + "번 건물 테이블 정보");
+        // console.log(res);
       })
       .catch((e) => {
         console.log(e);
@@ -66,12 +70,12 @@ const SsafyView = () => {
       });
   };
 
-
+  // 엑시오스 실행
   useEffect(() => {
     getTable()
   }, [])
 
-
+  // 메인으로 나가기
   useEffect(() => {
     console.log(changeScene)
     if (changeScene ==='street') {
@@ -79,14 +83,20 @@ const SsafyView = () => {
     }
   }, [changeScene])
 
-
+  // 미팅 페이지 이동 (103 : 1번건물에 3번 방)
   useEffect(() => {
-
-
-    console.log(roomNum)
-    console.log(currentChair, currentTable)
-    // navigate(`/meetinge/${roomNum}`)
-  }, [currentChair, currentTable, roomNum])
+    if (currentTable !== -1){
+      if (String(currentTable).length === 1) {
+        navigate(`/meeting/10${currentTable}`)
+      
+      } else {
+        navigate(`/meeting/1${currentTable}`)
+      }
+        
+      console.log(currentChair, currentTable)
+      console.log(RoomNum)
+    }
+  }, [currentChair, currentTable])
   
 
   useEffect(() => {

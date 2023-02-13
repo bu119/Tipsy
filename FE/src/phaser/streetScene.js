@@ -25,8 +25,17 @@ import imagelucy from '../assets/character/lucy.png'
 
 import mainstreet from '../assets/street/map.json';
 
+import room1 from '../assets/roomInfo/room1.png';
+import room2 from '../assets/roomInfo/room2.png';
+import room3 from '../assets/roomInfo/room3.png';
+import room4 from '../assets/roomInfo/room4.png';
+
 import store from '../redux/store';
 import { changeShop } from '../redux/actions';
+
+let current_store = -1;
+let storeInfo = ['mypage', 'bar', 'pub', 'BU', 'daejeon', 'GJ', 'seoul', 'gumi', 'hotel']
+
 
 
 class streetScene extends Phaser.Scene {
@@ -56,6 +65,8 @@ class streetScene extends Phaser.Scene {
         this.load.image('hotel', hotel);
         this.load.image('house', house);
         this.load.image('pub', pub);
+
+        this.load.image('room1', room1);
 
         // this.load.image('tilestore', stores);
         // this.load.spritesheet('stores', stores, {
@@ -106,17 +117,16 @@ class streetScene extends Phaser.Scene {
 
         // 캐릭터 & 시작 위치 설정
         this.player = this.physics.add.sprite(100, 415, this.characterKey).setScale(0.7).setDepth(32)
-        
+
         //storeObject 레이어 생성
         const storeLayer = map.getObjectLayer('storeObject');
-        const stores = this.physics.add.staticGroup()
-        // storeLayer.objects.forEach((storeObj, i) => {
-        //     const item = stores.get(storeObj.x + 160 * 0.5, storeObj.y - 160 * 0.5, 'stores', storeObj.gid - storesTileset.firstgid)
-        //     const id = `${i}`
-        //     item.id = id
-        //     this.physics.add.overlap(this.player, item, ()=>console.log(item.id), null, this);
-        // })
+        storeLayer.objects.forEach((storeObj, i) => {
+            storeObj.id = storeInfo[i]
+            storeObj.image = this.add.image(storeObj.x + storeObj.width / 2 + 10, storeObj.y + storeObj.height / 2 - 20, 'room1')
+            storeObj.image.visible = false
+        })
 
+        this.stores = storeLayer.objects
         
         //// 플레이어에 충돌 적용
         // 플레이어 월드 바깥 이동제한
@@ -144,29 +154,21 @@ class streetScene extends Phaser.Scene {
     // 실시간 반영
     update() {
         // 디버그용 (1초 간격으로 플레이어 좌표를 콘솔에 출력)
-        console.log(this.player.body.x, this.player.body.y); 
-        
+        // console.log(this.player.body.x, this.player.body.y); 
+
         // 맵이동
-        if (this.player.body.x > 260 && this.player.body.x < 360 && this.spaceBar.isDown) {
-            // 330-360
-            store.dispatch(changeShop("bar"));
-            console.log(store.getState());
-            // 리덕스로 'bar' 보냄
-        }
+        this.stores.forEach((store) => {
+             if (this.player.body.x > store.x && this.player.body.x < store.x + store.width ) {
+                store.image.visible = true;
+                if(Phaser.Input.Keyboard.JustDown(this.spaceBar)){
+                    console.log(store.id);
+                }
+            }
+            else{
+                store.image.visible = false;
+            }
 
-        if (this.player.body.x > 480 && this.player.body.x < 530 && this.spaceBar.isDown) {
-            // 330-360
-            store.dispatch(changeShop("ssafy"));
-            console.log(store.getState());
-            // 리덕스로 'ssafy' 보냄
-        }
-
-        if (this.player.body.x > 730 && this.player.body.x < 840 && this.spaceBar.isDown) {
-            // 330-360
-            store.dispatch(changeShop("mypage"));
-            console.log(store.getState());
-            // 리덕스로 'mypage' 보냄
-        }
+        })
 
 
         //// 속도 설정
@@ -189,11 +191,14 @@ class streetScene extends Phaser.Scene {
             this.player.setVelocityX(-speed);
             // 애니메이션
             this.player.anims.play(`${this.characterKey}_run_left`, true);
+
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(speed);
-            this.player.anims.play(`${this.characterKey}_run_right`, true); 
+            this.player.anims.play(`${this.characterKey}_run_right`, true);
+ 
         } else {
             // 이동하다 멈추면, 사용할 프레임 선택 & idle상태로 전환
+            // console.log(current_table)
             if (prevVelocity.x < 0) {this.player.anims.play(`${this.characterKey}_idle_left`, true)}
             else if (prevVelocity.x > 0) {this.player.anims.play(`${this.characterKey}_idle_right`, true)}
             else if (prevVelocity.y < 0) {this.player.anims.play(`${this.characterKey}_idle_up`, true)}
@@ -208,7 +213,6 @@ class streetScene extends Phaser.Scene {
     }
 
     //////////////////////// FUNCTIONS ////////////////////////
-
 
     // 애니메이션 움직임 함수 생성
     createAnims(characterKey,imageName) {

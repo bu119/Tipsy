@@ -17,7 +17,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+const QrModal = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -36,7 +36,7 @@ export default function BasicModal() {
             Mobile Game
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <QRcode/>
+            <QRcode paramsNum={props.paramsNum}/>
             You can enter the mobile game with the QR code.
           </Typography>
         </Box>
@@ -44,3 +44,6 @@ export default function BasicModal() {
     </div>
   );
 }
+
+
+export default QrModal;

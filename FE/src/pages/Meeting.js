@@ -8,8 +8,6 @@ import { useState } from 'react';
 //import { GUI } from 'dat.gui'
 import './Meeting.css'
 import { SelfieSegmentation } from "@mediapipe/selfie_segmentation";
-import { useParams } from 'react-router-dom';
-import QrModal from '../components/QrModal';
 
 const pointer = new THREE.Vector2()
 const textboxPointer = new THREE.Vector2(0,0)
@@ -243,7 +241,7 @@ function Meeting(id) {
   document.addEventListener( 'pointerdown', onPointerDown )
   /* 배경 skybox */
 	function skybox(place) {
-		const skyTexture = new THREE.TextureLoader().load(`/3d/D207_1.jpg`)
+		const skyTexture = new THREE.TextureLoader().load(`/room208.jpg`)
 		//const skyGeometry = new THREE.SphereGeometry(400, 60, 40)
     const skyGeometry = new THREE.CylinderGeometry(150, 150, 400, 32, 2, true)
     skyGeometry.scale(-1,1,1)
@@ -634,10 +632,6 @@ function Meeting(id) {
   anju()
 	animate()
 
-  //// QRgame Url
-  const params = useParams()
-  console.log(params.id)
-
   return (
     <>
       <div id="profileBox">
@@ -663,10 +657,8 @@ function Meeting(id) {
 			  	})
 			  }
 
-        <QrModal paramsNum={params.id}/>
       </div>
       {/* <Profile props={props}/> */}
-
     </>
   )
 }

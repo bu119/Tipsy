@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 // 리덕스
-import { useSelector } from 'react-redux'
+import { useSelector} from 'react-redux'
 // useSelector 데이터 읽기
 // useDispatch 데이터 부르기
 

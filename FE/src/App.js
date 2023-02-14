@@ -24,6 +24,7 @@ function App() {
           <Route path='/mainstreet' element={<StreetView/>}/>
           <Route path='/ssafymap' element={<SsafyView/>}/>
           <Route path='/barmap' element={<BarView/>}/>
+          {/* <Route path='/phaser' element={<GameView/>}/> */}
           <Route path='/QR' element={<QRcode/>}/>
           <Route path='/' element={<Preview/>}/>
           <Route path='/login' element={<Login/>}/>
